@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { showError, showSuccess } from '../../Helper/Tostify.Helper';
 import { ToastContainer } from 'react-toastify';
@@ -5,13 +6,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { CreateMainInfo_Case, DeleteInfo_Case, GetMainInfo_Case } from '../../Services/APIServices';
-import { Origin, Priority, State } from './Option/Option';
-import { MainPageDialogView } from './MainPageDialogView';
+import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices';
 
 
-import { ReportPage } from './ReportPage';
-import { Picture } from './Picture';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Dialog from '@material-ui/core/Dialog';
@@ -19,27 +16,16 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
-import FaceIcon from '@material-ui/icons/Face';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import Badge from '@material-ui/core/Badge';
 import PersonIcon from '@material-ui/icons/Person';
-import Chip from '@material-ui/core/Chip';
-import TripOriginIcon from '@material-ui/icons/TripOrigin';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Masonry,{ResponsiveMasonry} from "react-responsive-masonry"
 import psi from '../../Views/sales.png'
-import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 
 const useStyles = makeStyles((theme) => ({
@@ -70,30 +56,28 @@ purple: {
 },
 }));
 
-export const MainPageView = () => {
+export const ContactPage = () => {
 
  
 const classes = useStyles();
 const [anchorEl, setAnchorEl] = React.useState(null);
 
-const [openn, setOpenn] = React.useState(false);
+const [opennn, setOpennn] = React.useState(false);
 const [o, setO] = useState(false);
 const theme = useTheme();
 const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 const [open, setOpen] = useState(false);
 const [p, setP] = useState(false);
-const [res, setres] = useState();
+const [result, setResult] = useState();
 
 const [EditVal, setEditVal] = useState();
 const [loading, setLoading] = useState(true);
 const [success, setSuccess] = useState(false);
 console.log(success);
-const [state, setState] = useState({
-  subject: '',
-  status: '',
-  origin: '',
-  priority: ''} 
-);
+const [name, setName] = useState({
+    name: '',
+    email:''
+  } );
 
 
 
@@ -102,47 +86,47 @@ const [state, setState] = useState({
 /////  Get API
 const GetAllData = useCallback(async () => {
   setLoading(true);
-  const result = await GetMainInfo_Case();
+  const result = await GetMainInfo_Contact();
   if (result) {
     const sortedResult = result.data.sort((a, b) =>
       a.Id.localeCompare(b.Id)
     );
-    setres(sortedResult);
+    setResult(sortedResult);
     console.log('item ', result.data.length);
-  } else setres(null);
+  } else setResult(null);
   setLoading(false);
 }, []);
 
 
 
-console.log("State>>>" , res);
+console.log("State>>>" , result);
 
 
-  const clearState = () => {
-    setState({
-      subject: '',
-      status: '',
-      origin: '',
-      priority: ''
-      // contactid:''
-    });
-  };
+//   const clearState = () => {
+//     setName({
+//       subject: '',
+//       status: '',
+//       origin: '',
+//       priority: '',
+//       email: '',
+//       type: ''
+//     });
+//   };
 
-const hundle = ()=>{
-  if (state.subject !== '') {
-    handleCreateButton();
+// const hundle = ()=>{
+//   if (name.subject !== '') {
+//     handleCreateButton();
    
-  }else
-      showError(('Fill Subject'));
-}
+//   }else
+//       showError(('Fill Subject'));
+// }
 
 /////  Create API
-const handleCreateButton = async () => {
+const handleCreateButtons = async () => {
   setLoading(true);
-  const result = await CreateMainInfo_Case(state);
+  const result = await CreateMainInfo_Contact(name);
   if (result) {
-    state.subject='';
-    clearState();
+    // clearState();
     showSuccess(('Create Successfully'));
     setSuccess(false);
     GetAllData();
@@ -160,7 +144,7 @@ setTimeout(() => {
 /////  Delete API
 const handleDeleteButton = async (deletedId) => {
   setLoading(true);
-  const result = await DeleteInfo_Case(deletedId);
+  const result = await DeleteInfo_Contact(deletedId);
   if (result) {    
 setTimeout(() => {
  
@@ -200,24 +184,24 @@ useEffect(() => {
       const data = localStorage.getItem('data')
       
       if(data){
-        setState(JSON.parse(data))
+        setName(JSON.parse(data))
        }
       
       },[])
       
       useEffect(()=>{
       
-        localStorage.setItem('data',JSON.stringify(state))
+        localStorage.setItem('data',JSON.stringify(name))
       
       })
       
 
 const handleClickOpen = () => {
-  console.log('subject: ', state.subject);
-  setOpenn(true);
+//   console.log('subject: ', name.subject);
+  setOpennn(true);
 };
 const handleClose = () => {
-  setOpenn(false);
+  setOpennn(false);
 };
 const openvalchange = () => { 
       setOpen(false);   
@@ -255,30 +239,14 @@ return (
   <div className='Agents-wrapper view-wrapper'>
     <button onClick={top} id="myBtn" title="Go to top">Top</button>
 
-    {open && <MainPageDialogView open={open} DTO={EditVal} 
-    GetAllData={() => GetAllData()} openvalchange = {openvalchange} o={o}  setO={setO}/> }
-    {o && <ReportPage open={o}  openReport = {openReport}/>}
-    {p && <Picture open={p}  openPicture = {openPicture}/>}
+    {/* {open && <MainPageDialogView open={open} DTO={EditVal} 
+    GetAllData={() => GetAllData()} openvalchange = {openvalchange} o={o}  setO={setO}/> } */}
+    {/* {o && <ReportPage open={o}  openReport = {openReport}/>}
+    {p && <Picture open={p}  openPicture = {openPicture}/>} */}
     {loading ? <CircularProgress /> : <div>
-    {/* <div className="cardBadge">
-      <div>
-    <Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
-        <PersonIcon />
-      </Badge>
-</div>
-<div>
-    <AssignmentIcon onClick={() => { setO(true) }} />
- </div>
- <div>
 
-<PhotoLibraryIcon  />
-  </div>
-  <div>
-<AddIcon style={{float:'right'}}  onClick={handleClickOpen}/>
-</div>
-</div> */}
 <div style={{display: 'inline-block'}}>
-  <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
+  <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== result && result !== null && result.length} color="primary" style={{float:'left'}}>
         <PersonIcon />
       </Badge></div>
 
@@ -312,12 +280,14 @@ return (
     </div>
 <div className="cards">
 
-{res && res.map((s ,index ) => ( 
+{result && result.map((s ,index ) => ( 
 <div class="card-container">
-    <span class="pro"> {s.Status}</span>
+    <span class="pro"> {s.Email}</span>
     <img id="avatar" src={psi} alt="lead"></img>
-    <h3>{s.Subject}</h3>
-    <h6>Jordan</h6>
+    <h3>{s.Name}</h3>
+    <h3>{s.Phone}</h3>
+    <h6>{s.LeadSource}</h6>
+    <p>{s.Id}</p>
     {/* <p> front-end developer</p> */}
     <div class="buttons">
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
@@ -326,7 +296,7 @@ return (
 </ButtonGroup>
 		
     </div>
-    <div class="skills">
+    {/* <div class="skills">
         <h6>Case Info</h6>
         <ul>
             <li> Origin :{s.Origin}</li>
@@ -334,7 +304,7 @@ return (
             <li>priority : {s.Priority}</li>
        
         </ul>
-    </div>
+    </div> */}
     <div>
       <Accordion   expanded={collapseView===index} onChange={handleChange(index)}>
                 <AccordionSummary
@@ -345,14 +315,14 @@ return (
           <Typography className={classes.heading}>{collapseView===index ?'Hide Info' :'Show Info' }</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Typography>
+          {/* <Typography>
           <p style={{    textAlign: 'justify' , fontSize: 'medium'}}>
 <TripOriginIcon /> Origin : {s.Origin} <br/>
 
 <PriorityHighIcon /> priority : {s.Priority} <br/>
        </p>
       
-          </Typography>
+          </Typography> */}
         </AccordionDetails>
       </Accordion>
       </div>
@@ -364,10 +334,9 @@ return (
   
     <ToastContainer />
 
-
-      <Dialog
+    <Dialog
         fullScreen={fullScreen}
-        open={openn}
+        open={opennn}
         className="D1"
         maxWidth={'xl'}
         onClose={handleClose}
@@ -381,108 +350,27 @@ return (
 <TextField
           required
           id="outlined-required"
-          label="Subject"
+          label="Name"
           variant="outlined"
-          error={state.subject === '' ? "error" : null}
-          value={state.subject}
+          error={name.name === '' ? "error" : null}
+          value={name.name}
           onChange={(event) => {
-            setState((item) => ({ ...item, subject: event.target.value })) }} />
+            setName((item) => ({ ...item, name: event.target.value })) }} />
             </div>
-            {/* <div>
-<TextField
+            <div>
+{/* <TextField
           required
           id="outlined-required"
           label="Email"
           variant="outlined"
-          error={state.email === '' ? "error" : null}
-          value={state.email}
+          error={name.email === '' ? "error" : null}
+          value={name.email}
           onChange={(event) => {
-            setState((item) => ({ ...item, email: event.target.value })) }} /> 
-             </div> */}
-             <div>
-        <TextField
-                  id="select-Status"
-                  select
-                  error={state.status === '' ? "error" : null}
-                  className={classes.textField}
-           
-                  label="Status"
-                  value={state.status}
-                  helperText="Please select Status"
-                  variant="outlined"
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, status: event.target.value })) }}>
-                  {State.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                <div>
-                <TextField
-                  id="select-origin"
-                  select
-                  error={state.origin === '' ? "error" : null}
-                  className={classes.textField}
-                 
-                  label="Origin"
-                  helperText="Please select Origin"
-                  variant="outlined"
-                  value={state.origin}
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, origin: event.target.value })) }}>
-                  {Origin.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                <div>
-                <TextField
-                  id="select-priority"
-                  select
-          
-                  error={state.priority === '' ? "error" : null}
-                  className={classes.textField}
-                  label="Priority"
-                  helperText="Please select Priority"
-                  variant="outlined"
-                  value={state.priority}
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, priority: event.target.value })) }}
-                // helperText="Please select Priority"
-                >
-                  {Priority.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                {/* <div> 
-                <TextField
-                  id="select-type"
-                  select
-         
-                  error={state.type === '' ? "error" : null}
-                  className={classes.textField}
-                  label="Type"
-                  value={state.type}
-                  helperText="Please select Type"
-                  variant="outlined"
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, type: event.target.value }))  }}
-                >
-                  {Type.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div> */}
-         
+            setName((item) => ({ ...item, email: event.target.value })) }} />  */}
+             </div>
+   
+      
+   
               </form>
 
         
@@ -491,12 +379,13 @@ return (
        </DialogContent>
         <DialogActions style={{justifyContent: 'center'}}>
   <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
-  <Button  onClick={hundle}>Save</Button>
-  <Button color='inherit' onClick={() => {clearState()} }>Clear</Button>
+  <Button  onClick={handleCreateButtons}>Save</Button>
+  {/* <Button color='inherit' onClick={() => {clearState()} }>Clear</Button> */}
   <Button  color="secondary" onClick={handleClose}>Exit</Button>
 </ButtonGroup>
         </DialogActions>    
       </Dialog>
+
     </div>
     </div>}
 </div>
