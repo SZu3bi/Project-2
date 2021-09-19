@@ -2,7 +2,7 @@ import React from "react";
 import { Route, Link, BrowserRouter as Router  } from "react-router-dom";
 import{ MainPageView }from "./MainPageView";
 import About from "./About";
-
+//sadsaddas
 export const Home = () => {
   return (
     <div className="App">
