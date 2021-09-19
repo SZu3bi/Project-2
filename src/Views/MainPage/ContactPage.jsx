@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices';
+import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices_2';
 
 
 import Button from '@material-ui/core/Button';
@@ -74,9 +74,8 @@ const [EditVal, setEditVal] = useState();
 const [loading, setLoading] = useState(true);
 const [success, setSuccess] = useState(false);
 console.log(success);
-const [name, setName] = useState({
-    name: '',
-    email:''
+const [state, setState] = useState({
+    name: ''
   } );
 
 
@@ -99,7 +98,7 @@ const GetAllData = useCallback(async () => {
 
 
 
-console.log("State>>>" , result);
+console.log("StateContact" , result);
 
 
 //   const clearState = () => {
@@ -122,9 +121,9 @@ console.log("State>>>" , result);
 // }
 
 /////  Create API
-const handleCreateButtons = async () => {
+const handleCreateButtons_2 = async () => {
   setLoading(true);
-  const result = await CreateMainInfo_Contact(name);
+  const result = await CreateMainInfo_Contact(state);
   if (result) {
     // clearState();
     showSuccess(('Create Successfully'));
@@ -184,14 +183,14 @@ useEffect(() => {
       const data = localStorage.getItem('data')
       
       if(data){
-        setName(JSON.parse(data))
+        setState(JSON.parse(data))
        }
       
       },[])
       
       useEffect(()=>{
       
-        localStorage.setItem('data',JSON.stringify(name))
+        localStorage.setItem('data',JSON.stringify(state))
       
       })
       
@@ -203,17 +202,7 @@ const handleClickOpen = () => {
 const handleClose = () => {
   setOpennn(false);
 };
-const openvalchange = () => { 
-      setOpen(false);   
-  }
-const openReport = () => { 
-      setO(false);   
-  }
 
-const openPicture = () => { 
-      setP(false);   
-  }
- 
 
   const Open = (event) => {
     setAnchorEl(event.currentTarget);
@@ -352,10 +341,10 @@ return (
           id="outlined-required"
           label="Name"
           variant="outlined"
-          error={name.name === '' ? "error" : null}
-          value={name.name}
+          error={state.name === '' ? "error" : null}
+          value={state.name}
           onChange={(event) => {
-            setName((item) => ({ ...item, name: event.target.value })) }} />
+            setState((item) => ({ ...item, name: event.target.value })) }} />
             </div>
             <div>
 {/* <TextField
@@ -379,7 +368,7 @@ return (
        </DialogContent>
         <DialogActions style={{justifyContent: 'center'}}>
   <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
-  <Button  onClick={handleCreateButtons}>Save</Button>
+  <Button  onClick={handleCreateButtons_2}>Save</Button>
   {/* <Button color='inherit' onClick={() => {clearState()} }>Clear</Button> */}
   <Button  color="secondary" onClick={handleClose}>Exit</Button>
 </ButtonGroup>
