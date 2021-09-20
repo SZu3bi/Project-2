@@ -8,8 +8,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CreateMainInfo_Case, DeleteInfo_Case, GetMainInfo_Case } from '../../Services/APIServices';
 import { Origin, Priority, State } from './Option/Option';
 import { MainPageDialogView } from './MainPageDialogView';
-
-
+import { GetMainInfo_Contact } from '../../Services/APIServices_2';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ReportPage } from './ReportPage';
 import { Picture } from './Picture';
 import Button from '@material-ui/core/Button';
@@ -41,6 +41,15 @@ import Masonry,{ResponsiveMasonry} from "react-responsive-masonry"
 import psi from '../../Views/sales.png'
 import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
+import Stepper from '@material-ui/core/Stepper';
+import Step from '@material-ui/core/Step';
+import StepLabel from '@material-ui/core/StepLabel';
+import StepContent from '@material-ui/core/StepContent';
+import Paper from '@material-ui/core/Paper';
+
+const getSteps=()=> {
+  return ['Fill Subject', 'Select Contact', 'Select Status','Select Origin','Select Priority'];
+}
 
 const useStyles = makeStyles((theme) => ({
 root: {
@@ -68,9 +77,166 @@ purple: {
   color: theme.palette.getContrastText(deepPurple[500]),
   backgroundColor: deepPurple[500],
 },
+button: {
+  marginTop: theme.spacing(1),
+  marginRight: theme.spacing(1),
+},
+actionsContainer: {
+  marginBottom: theme.spacing(2),
+},
+resetContainer: {
+  padding: theme.spacing(3),
+},
 }));
 
 export const MainPageView = () => {
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <div>
+    <TextField
+              required
+              id="outlined-required"
+              label="Subject"
+              variant="outlined"
+              error={state.subject === '' ? "error" : null}
+              value={state.subject}
+              onChange={(event) => {
+                setState((item) => ({ ...item, subject: event.target.value })) }} />
+                </div>;
+      case 1:
+        return        <div>
+        <TextField
+              id="outlined-required"
+              select
+     
+              error={state.contact === '' ? "error" : null}
+              className={classes.textField}
+              label="Contact"
+              value={state.contact}
+              helperText="Please select Contact"
+              variant="outlined"
+              onChange={(event) => {
+                setState((item) => ({ ...item, contact: event.target.value }))  }}
+            >
+              {rescon&&rescon.map((option) => (
+                <MenuItem key={option.Id} value={option.Id}>
+                  {option.Name}
+                </MenuItem>
+              ))}
+            </TextField>
+
+
+
+
+         
+
+     {/* <Autocomplete
+      options={rescon}
+      getOptionLabel={option => option.Name}
+      renderInput={params => (
+        <TextField
+          {...params}
+          variant="standard"
+          label="Auto Comp Contact"
+          placeholder="Favorites"
+          margin="normal"
+          value={state.contact}
+          fullWidth
+          // onChange={(event) => {
+          //   console.log(event)
+          //   setState((item) => ({ ...item, contact: event.target.value }))  }}
+          onInputChange={(event, newInputValue) => {
+            console.log(newInputValue)
+             setState((item) => ({ ...item, contact: event.target.value }))
+          }}
+        />
+      )}
+ 
+   
+    /> */}
+         </div>;
+      case 2:  return  <div>
+      <TextField
+                id="select-Status"
+                select
+                error={state.status === '' ? "error" : null}
+                className={classes.textField}
+         
+                label="Status"
+                value={state.status}
+                helperText="Please select Status"
+                variant="outlined"
+                onChange={(event) => {
+                  setState((item) => ({ ...item, status: event.target.value })) }}>
+                {State.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              </div>;
+                case 3:  return  <div>
+                <TextField
+                  id="select-origin"
+                  select
+                  error={state.origin === '' ? "error" : null}
+                  className={classes.textField}
+                 
+                  label="Origin"
+                  helperText="Please select Origin"
+                  variant="outlined"
+                  value={state.origin}
+                  onChange={(event) => {
+                    setState((item) => ({ ...item, origin: event.target.value })) }}>
+                  {Origin.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                </div>;
+ case 4:  return        <div>
+ <TextField
+   id="select-priority"
+   select
+
+   error={state.priority === '' ? "error" : null}
+   className={classes.textField}
+   label="Priority"
+   helperText="Please select Priority"
+   variant="outlined"
+   value={state.priority}
+   onChange={(event) => {
+     setState((item) => ({ ...item, priority: event.target.value })) }}
+ // helperText="Please select Priority"
+ >
+   {Priority.map((option) => (
+     <MenuItem key={option.value} value={option.value}>
+       {option.label}
+     </MenuItem>
+   ))}
+ </TextField>
+ </div>;
+
+       
+      default:
+        return 'Unknown step';
+    }
+  }
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setActiveStep(0);
+  };
 
  
 const classes = useStyles();
@@ -83,7 +249,7 @@ const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 const [open, setOpen] = useState(false);
 const [p, setP] = useState(false);
 const [res, setres] = useState();
-
+const [rescon, setrescon] = useState();
 const [EditVal, setEditVal] = useState();
 const [loading, setLoading] = useState(true);
 const [success, setSuccess] = useState(false);
@@ -92,7 +258,8 @@ const [state, setState] = useState({
   subject: '',
   status: '',
   origin: '',
-  priority: ''} 
+  priority: '',
+  contact:''} 
 );
 
 
@@ -112,10 +279,23 @@ const GetAllData = useCallback(async () => {
   } else setres(null);
   setLoading(false);
 }, []);
+const GetContact = useCallback(async () => {
+  setLoading(true);
+  const result = await GetMainInfo_Contact();
+  if (result) {
+    const sortedResult = result.data.sort((a, b) =>
+      a.Id.localeCompare(b.Id)
+    );
+    setrescon(sortedResult);
+    console.log('item ', result.data.length);
+  } else setres(null);
+  setLoading(false);
+}, []);
 
 
 
-console.log("State>>>" , res);
+console.log("Contact" , rescon);
+console.log("Case" , res);
 
 
   const clearState = () => {
@@ -126,6 +306,7 @@ console.log("State>>>" , res);
       priority: ''
       // contactid:''
     });
+    handleReset();
   };
 
 const hundle = ()=>{
@@ -143,6 +324,7 @@ const handleCreateButton = async () => {
   if (result) {
     state.subject='';
     clearState();
+    handleReset();
     showSuccess(('Create Successfully'));
     setSuccess(false);
     GetAllData();
@@ -193,23 +375,10 @@ setTimeout(() => {
 /////////////////////////////////  API`s  ///////////////////////////////////////
 useEffect(() => {
     GetAllData()
-    }, [GetAllData]);
+    GetContact()
+    }, [GetAllData,GetContact]);
 
-    useEffect(()=>{
 
-      const data = localStorage.getItem('data')
-      
-      if(data){
-        setState(JSON.parse(data))
-       }
-      
-      },[])
-      
-      useEffect(()=>{
-      
-        localStorage.setItem('data',JSON.stringify(state))
-      
-      })
       
 
 const handleClickOpen = () => {
@@ -260,23 +429,7 @@ return (
     {o && <ReportPage open={o}  openReport = {openReport}/>}
     {p && <Picture open={p}  openPicture = {openPicture}/>}
     {loading ? <CircularProgress /> : <div>
-    {/* <div className="cardBadge">
-      <div>
-    <Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
-        <PersonIcon />
-      </Badge>
-</div>
-<div>
-    <AssignmentIcon onClick={() => { setO(true) }} />
- </div>
- <div>
-
-<PhotoLibraryIcon  />
-  </div>
-  <div>
-<AddIcon style={{float:'right'}}  onClick={handleClickOpen}/>
-</div>
-</div> */}
+  
 <div style={{display: 'inline-block'}}>
   <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
         <PersonIcon />
@@ -306,8 +459,8 @@ return (
         onClose={Close}
       >
         <MenuItem onClick={Close}>Add New</MenuItem>
-        <MenuItem onClick={Close}></MenuItem>
-        <MenuItem onClick={Close}></MenuItem>
+        {/* <MenuItem onClick={Close}></MenuItem>
+        <MenuItem onClick={Close}></MenuItem> */}
       </Menu>
     </div>
 <div className="cards">
@@ -368,122 +521,52 @@ return (
       <Dialog
         fullScreen={fullScreen}
         open={openn}
-        className="D1"
+        // className="MuiDialog-paperWidthXl"
         maxWidth={'xl'}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title">
         <DialogContent>
+        <Stepper activeStep={activeStep} orientation="vertical">
+        {steps.map((label, index) => (
+          <Step key={label}>
+            <StepLabel>{label}</StepLabel>
+            <StepContent>
+              <Typography>{getStepContent(index)}</Typography>
+              <div className={classes.actionsContainer}>
+                <div>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </div>
+            </StepContent>
+          </Step>
+        ))}
+      </Stepper>
+      {activeStep === steps.length && (
+        <Paper square elevation={0} className={classes.resetContainer}>
+          <Typography>All steps completed - you&apos;re finished</Typography>
+          {/* <Button onClick={handleReset} className={classes.button}>
+            Reset
+          </Button> */}
+        </Paper>
+      )}
         <ToastContainer />
         {loading ? <CircularProgress size={50} /> :
   <div className="div1">
-    <form className={classes.root} noValidate autoComplete="off">
-    <div>
-<TextField
-          required
-          id="outlined-required"
-          label="Subject"
-          variant="outlined"
-          error={state.subject === '' ? "error" : null}
-          value={state.subject}
-          onChange={(event) => {
-            setState((item) => ({ ...item, subject: event.target.value })) }} />
-            </div>
-            {/* <div>
-<TextField
-          required
-          id="outlined-required"
-          label="Email"
-          variant="outlined"
-          error={state.email === '' ? "error" : null}
-          value={state.email}
-          onChange={(event) => {
-            setState((item) => ({ ...item, email: event.target.value })) }} /> 
-             </div> */}
-             <div>
-        <TextField
-                  id="select-Status"
-                  select
-                  error={state.status === '' ? "error" : null}
-                  className={classes.textField}
-           
-                  label="Status"
-                  value={state.status}
-                  helperText="Please select Status"
-                  variant="outlined"
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, status: event.target.value })) }}>
-                  {State.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                <div>
-                <TextField
-                  id="select-origin"
-                  select
-                  error={state.origin === '' ? "error" : null}
-                  className={classes.textField}
-                 
-                  label="Origin"
-                  helperText="Please select Origin"
-                  variant="outlined"
-                  value={state.origin}
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, origin: event.target.value })) }}>
-                  {Origin.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                <div>
-                <TextField
-                  id="select-priority"
-                  select
-          
-                  error={state.priority === '' ? "error" : null}
-                  className={classes.textField}
-                  label="Priority"
-                  helperText="Please select Priority"
-                  variant="outlined"
-                  value={state.priority}
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, priority: event.target.value })) }}
-                // helperText="Please select Priority"
-                >
-                  {Priority.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>
-                {/* <div> 
-                <TextField
-                  id="select-type"
-                  select
-         
-                  error={state.type === '' ? "error" : null}
-                  className={classes.textField}
-                  label="Type"
-                  value={state.type}
-                  helperText="Please select Type"
-                  variant="outlined"
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, type: event.target.value }))  }}
-                >
-                  {Type.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div> */}
-         
-              </form>
+   
 
         
          

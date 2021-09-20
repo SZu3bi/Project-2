@@ -9,7 +9,7 @@ export const GetMainInfo_Case = async () => {
     },
   }
   )
-    .then((data) => data)
+    .then((data_2) => data_2)
     .catch((error) => showError('Get Main Info Filed'));
   return result;
 };
@@ -23,7 +23,7 @@ export const CreateMainInfo_Case = async (body) => {
     },
   }
   )
-    .then((data) => data)
+    .then((data_2) => data_2)
     .catch((error) => showError('Create Filed'));
   return result;
 };

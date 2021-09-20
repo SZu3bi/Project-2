@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
 import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices_2';
+import { Source } from './Option/Option';
+import { GetMainInfo_Case } from '../../Services/APIServices';
 
 
 import Button from '@material-ui/core/Button';
@@ -69,13 +71,16 @@ const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 const [open, setOpen] = useState(false);
 const [p, setP] = useState(false);
 const [result, setResult] = useState();
-
+const [casedata , setCasedata] = useState();
 const [EditVal, setEditVal] = useState();
 const [loading, setLoading] = useState(true);
 const [success, setSuccess] = useState(false);
 console.log(success);
-const [state, setState] = useState({
-    name: ''
+const [states, setStates] = useState({
+    name: '',
+    phone:'',
+    email:'',
+    leadSource:''
   } );
 
 
@@ -97,8 +102,22 @@ const GetAllData = useCallback(async () => {
 }, []);
 
 
+const CaseData = useCallback(async () => {
+  setLoading(true);
+  const result = await GetMainInfo_Case();
+  if (result) {
+    const sortedResult = result.data.sort((a, b) =>
+      a.Id.localeCompare(b.Id)
+    );
+    setCasedata(sortedResult);
+    console.log('item ', result.data.length);
+  } else setCasedata(null);
+  setLoading(false);
+}, []);
 
-console.log("StateContact" , result);
+
+console.log("result" , result);
+console.log("casedata" , casedata);
 
 
 //   const clearState = () => {
@@ -123,9 +142,9 @@ console.log("StateContact" , result);
 /////  Create API
 const handleCreateButtons_2 = async () => {
   setLoading(true);
-  const result = await CreateMainInfo_Contact(state);
+  const result = await CreateMainInfo_Contact(states);
   if (result) {
-    // clearState();
+     clearState();
     showSuccess(('Create Successfully'));
     setSuccess(false);
     GetAllData();
@@ -139,20 +158,30 @@ setTimeout(() => {
   setLoading(false);
 };
 
-
+const handleRemove = () => {
+  setResult(result.filter(p => p.Id !== casedata.ContactId));
+};
 /////  Delete API
 const handleDeleteButton = async (deletedId) => {
   setLoading(true);
   const result = await DeleteInfo_Contact(deletedId);
-  if (result) {    
-setTimeout(() => {
  
-  showSuccess(('Deleted Successfully'));
-  setSuccess(false);
-  GetAllData();
-  setLoading(true);
-      }, 100);
-  }else showError(('Delete Failed'));
+   if (result) {    
+    showSuccess(('Deleted Successfully'));
+    setSuccess(false);
+    GetAllData();
+    setLoading(true);
+// setTimeout(() => {
+ 
+ 
+//       }, 100);
+
+    }else{
+      showError(('Delete Failed'));
+        }
+
+
+
     };
 
 
@@ -166,7 +195,15 @@ setTimeout(() => {
         mybutton.style.display = "none";
       }
     }
-
+    const clearState = () => {
+      setStates({
+        name: '',
+        phone:'',
+        email:'',
+        leadSource:''
+      });
+     
+    };
     const top = () => {
       document.body.scrollTop = 0;
       document.documentElement.scrollTop = 0;
@@ -176,23 +213,24 @@ setTimeout(() => {
 /////////////////////////////////  API`s  ///////////////////////////////////////
 useEffect(() => {
     GetAllData()
-    }, [GetAllData]);
+    CaseData()
+    }, [GetAllData , CaseData]);
 
-    useEffect(()=>{
+    // useEffect(()=>{
 
-      const data = localStorage.getItem('data')
+    //   const data = localStorage.getItem('data')
       
-      if(data){
-        setState(JSON.parse(data))
-       }
+    //   if(data){
+    //     setStates(JSON.parse(data))
+    //    }
       
-      },[])
+    //   },[])
       
-      useEffect(()=>{
+    //   useEffect(()=>{
       
-        localStorage.setItem('data',JSON.stringify(state))
+    //     localStorage.setItem('data',JSON.stringify(states))
       
-      })
+    //   })
       
 
 const handleClickOpen = () => {
@@ -263,8 +301,8 @@ return (
         onClose={Close}
       >
         <MenuItem onClick={Close}>Add New</MenuItem>
-        <MenuItem onClick={Close}></MenuItem>
-        <MenuItem onClick={Close}></MenuItem>
+        {/* <MenuItem onClick={Close}></MenuItem>
+        <MenuItem onClick={Close}></MenuItem> */}
       </Menu>
     </div>
 <div className="cards">
@@ -285,7 +323,7 @@ return (
 </ButtonGroup>
 		
     </div>
-    {/* <div class="skills">
+    <div class="skills">
         <h6>Case Info</h6>
         <ul>
             <li> Origin :{s.Origin}</li>
@@ -293,7 +331,7 @@ return (
             <li>priority : {s.Priority}</li>
        
         </ul>
-    </div> */}
+    </div>
     <div>
       <Accordion   expanded={collapseView===index} onChange={handleChange(index)}>
                 <AccordionSummary
@@ -304,14 +342,14 @@ return (
           <Typography className={classes.heading}>{collapseView===index ?'Hide Info' :'Show Info' }</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          {/* <Typography>
+          <Typography>
           <p style={{    textAlign: 'justify' , fontSize: 'medium'}}>
-<TripOriginIcon /> Origin : {s.Origin} <br/>
+ Origin : {s.Origin} <br/>
 
-<PriorityHighIcon /> priority : {s.Priority} <br/>
+ priority : {s.Priority} <br/>
        </p>
       
-          </Typography> */}
+          </Typography>
         </AccordionDetails>
       </Accordion>
       </div>
@@ -341,24 +379,54 @@ return (
           id="outlined-required"
           label="Name"
           variant="outlined"
-          error={state.name === '' ? "error" : null}
-          value={state.name}
+          error={states.name === '' ? "error" : null}
+          value={states.name}
           onChange={(event) => {
-            setState((item) => ({ ...item, name: event.target.value })) }} />
+            setStates((names) => ({ ...names, name: event.target.value })) }} />
             </div>
             <div>
-{/* <TextField
+<TextField
+          required
+          id="outlined-required"
+          label="Phone"
+          variant="outlined"
+          error={states.phone === '' ? "error" : null}
+          value={states.phone}
+          onChange={(event) => {
+            setStates((item) => ({ ...item, phone: event.target.value })) }} /> 
+             </div>
+            <div>
+<TextField
           required
           id="outlined-required"
           label="Email"
           variant="outlined"
-          error={name.email === '' ? "error" : null}
-          value={name.email}
+          error={states.email === '' ? "error" : null}
+          value={states.email}
           onChange={(event) => {
-            setName((item) => ({ ...item, email: event.target.value })) }} />  */}
+            setStates((item) => ({ ...item, email: event.target.value })) }} /> 
              </div>
-   
-      
+             <div>
+             <TextField
+  
+   select
+
+   error={states.leadSource === '' ? "error" : null}
+   className={classes.textField}
+   label="Lead Source"
+   helperText="Please select lead Source"
+   variant="outlined"
+   value={states.leadSource}
+   onChange={(event) => {
+    setStates((item) => ({ ...item, leadSource: event.target.value })) }}
+ >
+   {Source.map((option) => (
+     <MenuItem key={option.value} value={option.value}>
+       {option.label}
+     </MenuItem>
+   ))}
+ </TextField>
+ </div>
    
               </form>
 

@@ -156,7 +156,10 @@ margin: 1px auto;
 justify-content: center;
   }
 
-  
+  .MuiDialog-paperWidthXl{
+    width: 60%;
+    margin: 1px auto;
+  }
   /* CARD BACKGROUNDS */
   
   .card-1 {
@@ -304,6 +307,7 @@ button.primary.ghost {
     display: flex;
     justify-content: space-evenly;
     list-style: none;
+    padding: 0%;
   }
   
   .nav-link {

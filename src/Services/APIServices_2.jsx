@@ -16,9 +16,9 @@ export const GetMainInfo_Contact = async () => {
     return result;
   };
 
-  export const CreateMainInfo_Contact = async (body) => {
+  export const CreateMainInfo_Contact = async (contact) => {
     const results = await HttpServices_2.post_con(
-      `${config_2.server_address_Contact}`, body, {
+      `${config_2.server_address_Contact}`, contact, {
       headers: {
         Authorization: `Bearer ${config_2.token_2}`,
       },

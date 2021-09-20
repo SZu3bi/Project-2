@@ -63,3 +63,31 @@ export const Type = [
         label: 'Other',
     }
 ];
+
+
+
+
+
+
+export const Source = [
+    {
+        value: 'Web',
+        label: 'Web',
+    },
+    {
+        value: 'Phone Inquiry',
+        label: 'Phone Inquiry',
+    },
+    {
+        value: 'Partner Referral',
+        label: 'Partner Referral',
+    },
+    {
+        value: 'Purchased List',
+        label: 'Purchased List',
+    },
+    {
+        value: 'Other',
+        label: 'Other',
+    }
+];
