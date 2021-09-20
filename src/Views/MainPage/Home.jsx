@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link, BrowserRouter as Router ,useHistory  } from "react-router-dom";
+import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  } from "react-router-dom";
 import{ MainPageView }from "./MainPageView";
 import About from "./About";
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
     <div className="App">
       
           <Router>
+          <Route exact path="/">
+    <Redirect to="/about" />
+</Route>
          <nav className='navbar navbar-toggleable-sm'>
 
 
