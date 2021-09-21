@@ -9,8 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices_2';
 import { Source } from './Option/Option';
 import { GetMainInfo_Case } from '../../Services/APIServices';
-
-
+import { ContactPageupsert } from './ContactPageupsert';
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Dialog from '@material-ui/core/Dialog';
@@ -64,12 +63,10 @@ export const ContactPage = () => {
 const classes = useStyles();
 const [anchorEl, setAnchorEl] = React.useState(null);
 
-const [opennn, setOpennn] = React.useState(false);
-const [o, setO] = useState(false);
+const [openContactAdd, setOpenContactAdd] = React.useState(false);
 const theme = useTheme();
 const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
 const [open, setOpen] = useState(false);
-const [p, setP] = useState(false);
 const [result, setResult] = useState();
 const [casedata , setCasedata] = useState();
 const [EditVal, setEditVal] = useState();
@@ -84,7 +81,9 @@ const [states, setStates] = useState({
   } );
 
 
-
+  const openvalchangeContact = () => { 
+    setOpen(false);   
+}
 /////////////////////////////////  API`s  ///////////////////////////////////////
 
 /////  Get API
@@ -110,14 +109,14 @@ const CaseData = useCallback(async () => {
       a.Id.localeCompare(b.Id)
     );
     setCasedata(sortedResult);
-    console.log('item ', result.data.length);
+    console.log('item length', result.data.length);
   } else setCasedata(null);
   setLoading(false);
 }, []);
 
 
-console.log("result" , result);
-console.log("casedata" , casedata);
+console.log("Contact-data" , result);
+console.log("Case-data" , casedata);
 
 
 //   const clearState = () => {
@@ -175,13 +174,9 @@ const handleDeleteButton = async (deletedId) => {
  
  
 //       }, 100);
-
     }else{
       showError(('Delete Failed'));
         }
-
-
-
     };
 
 
@@ -216,38 +211,21 @@ useEffect(() => {
     CaseData()
     }, [GetAllData , CaseData]);
 
-    // useEffect(()=>{
 
-    //   const data = localStorage.getItem('data')
-      
-    //   if(data){
-    //     setStates(JSON.parse(data))
-    //    }
-      
-    //   },[])
-      
-    //   useEffect(()=>{
-      
-    //     localStorage.setItem('data',JSON.stringify(states))
-      
-    //   })
-      
 
 const handleClickOpen = () => {
 //   console.log('subject: ', name.subject);
-  setOpennn(true);
+  setOpenContactAdd(true);
 };
 const handleClose = () => {
-  setOpennn(false);
+  setOpenContactAdd(false);
 };
 
-
-  const Open = (event) => {
+  const OpenAdd = (event) => {
     setAnchorEl(event.currentTarget);
-    
+  
   };
-
-  const Close = () => {
+  const CloseAdd = () => {
     setAnchorEl(null);
     handleClickOpen();
   };
@@ -259,36 +237,29 @@ const handleClose = () => {
     
   };
 
-  console.log('sssssssssssss',collapseView);
+  console.log('collapseView',collapseView);
 
 
 return (
   <div className='Agents-wrapper view-wrapper'>
+
+{open && <ContactPageupsert open={open} DTO={EditVal} 
+    GetAllData={() => GetAllData()} openvalchangeContact = {openvalchangeContact}/> }
     <button onClick={top} id="myBtn" title="Go to top">Top</button>
 
-    {/* {open && <MainPageDialogView open={open} DTO={EditVal} 
-    GetAllData={() => GetAllData()} openvalchange = {openvalchange} o={o}  setO={setO}/> } */}
-    {/* {o && <ReportPage open={o}  openReport = {openReport}/>}
-    {p && <Picture open={p}  openPicture = {openPicture}/>} */}
     {loading ? <CircularProgress /> : <div>
 
 <div style={{display: 'inline-block'}}>
-  <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== result && result !== null && result.length} color="primary" style={{float:'left'}}>
+  {/* <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== result && result !== null && result.length} color="primary" style={{float:'left'}}>
         <PersonIcon />
-      </Badge></div>
-
-
+      </Badge></div> */}
       <div>
-      <Button
-      
-      
+      <Button  
       aria-controls="customized-menu"
       aria-haspopup="true"
       variant="contained"
-      color="primary"
-      
-      
-      onClick={Open}>
+      color="primary" 
+      onClick={OpenAdd}>
         Open Menu
       </Button>
       </div>
@@ -298,11 +269,9 @@ return (
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={Close}
-      >
-        <MenuItem onClick={Close}>Add New</MenuItem>
-        {/* <MenuItem onClick={Close}></MenuItem>
-        <MenuItem onClick={Close}></MenuItem> */}
+        onClose={CloseAdd} >
+        <MenuItem onClick={CloseAdd}>Add New</MenuItem>
+      
       </Menu>
     </div>
 <div className="cards">
@@ -315,7 +284,6 @@ return (
     <h3>{s.Phone}</h3>
     <h6>{s.LeadSource}</h6>
     <p>{s.Id}</p>
-    {/* <p> front-end developer</p> */}
     <div class="buttons">
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button onClick={() => { setOpen(true); setEditVal(s) }}>Edit</Button>
@@ -329,7 +297,6 @@ return (
             <li> Origin :{s.Origin}</li>
            
             <li>priority : {s.Priority}</li>
-       
         </ul>
     </div>
     <div>
@@ -345,7 +312,6 @@ return (
           <Typography>
           <p style={{    textAlign: 'justify' , fontSize: 'medium'}}>
  Origin : {s.Origin} <br/>
-
  priority : {s.Priority} <br/>
        </p>
       
@@ -355,15 +321,11 @@ return (
       </div>
 </div>))}
 </div>
-
-
     <div>
-  
     <ToastContainer />
-
     <Dialog
         fullScreen={fullScreen}
-        open={opennn}
+        open={openContactAdd}
         className="D1"
         maxWidth={'xl'}
         onClose={handleClose}
@@ -408,9 +370,7 @@ return (
              </div>
              <div>
              <TextField
-  
    select
-
    error={states.leadSource === '' ? "error" : null}
    className={classes.textField}
    label="Lead Source"
@@ -427,12 +387,11 @@ return (
    ))}
  </TextField>
  </div>
-   
               </form>
 
-        
-         
    </div> }
+
+
        </DialogContent>
         <DialogActions style={{justifyContent: 'center'}}>
   <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">

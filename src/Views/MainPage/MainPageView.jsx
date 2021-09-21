@@ -417,7 +417,7 @@ const openPicture = () => {
     
   };
 
-  console.log('sssssssssssss',collapseView);
+  console.log('collapseView',collapseView);
 
 
 return (
@@ -431,21 +431,17 @@ return (
     {loading ? <CircularProgress /> : <div>
   
 <div style={{display: 'inline-block'}}>
-  <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
-        <PersonIcon />
-      </Badge></div>
+  {/* <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== res && res !== null && res.length} color="primary" style={{float:'left'}}>
+        <PersonIcon/>
+      </Badge></div> */}
 
-
+{/* <button  onClick={() => { setO(true) }}></button> */}
       <div>
       <Button
-      
-      
       aria-controls="customized-menu"
       aria-haspopup="true"
       variant="contained"
       color="primary"
-      
-      
       onClick={Open}>
         Open Menu
       </Button>
@@ -456,11 +452,9 @@ return (
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={Close}
-      >
+        onClose={Close}>
         <MenuItem onClick={Close}>Add New</MenuItem>
-        {/* <MenuItem onClick={Close}></MenuItem>
-        <MenuItem onClick={Close}></MenuItem> */}
+    
       </Menu>
     </div>
 <div className="cards">
@@ -469,9 +463,11 @@ return (
 <div class="card-container">
     <span class="pro"> {s.Status}</span>
     <img id="avatar" src={psi} alt="lead"></img>
+   
     <h3>{s.Subject}</h3>
-    <h6>Jordan</h6>
-    {/* <p> front-end developer</p> */}
+    <h6>Loc : Jordan</h6>
+    <h6>Contact Name : {s.Contact.Name}</h6>
+    <h6>Contact Id : {s.ContactId}</h6>
     <div class="buttons">
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button onClick={() => { setOpen(true); setEditVal(s) }}>Edit</Button>
@@ -511,8 +507,6 @@ return (
       </div>
 </div>))}
 </div>
-
-
     <div>
   
     <ToastContainer />
@@ -521,7 +515,6 @@ return (
       <Dialog
         fullScreen={fullScreen}
         open={openn}
-        // className="MuiDialog-paperWidthXl"
         maxWidth={'xl'}
         onClose={handleClose}
         aria-labelledby="responsive-dialog-title">
@@ -558,9 +551,7 @@ return (
       {activeStep === steps.length && (
         <Paper square elevation={0} className={classes.resetContainer}>
           <Typography>All steps completed - you&apos;re finished</Typography>
-          {/* <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button> */}
+ 
         </Paper>
       )}
         <ToastContainer />

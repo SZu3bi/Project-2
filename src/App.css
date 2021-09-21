@@ -335,3 +335,9 @@ button.primary.ghost {
       margin-top: 40px;
     }
   }
+
+  .MuiAppBar-colorPrimary{
+
+    color: #fff;
+    background-color: #231E39;
+  }

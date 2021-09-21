@@ -42,3 +42,16 @@ export const GetMainInfo_Contact = async () => {
       .catch((error) => showError('Delete Filed'));
     return result;
   };
+
+  export const EditInfo_Contact = async (id, body) => {
+    const result = await HttpServices_2.put_con(
+      `${config_2.server_address_Contact}/${id}`, body, {
+      headers: {
+        Authorization: `Bearer ${config_2.token_2}`,
+      },
+    }
+    )
+      .then((data) => data)
+      .catch((error) => showError('Edit Filed'));
+    return result;
+  };

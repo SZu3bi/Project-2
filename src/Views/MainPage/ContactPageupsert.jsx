@@ -3,8 +3,8 @@ import { showError, showSuccess } from '../../Helper/Tostify.Helper';
 import 'react-toastify/dist/ReactToastify.css';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import { EditInfo_Case} from '../../Services/APIServices';
-import { Origin, Priority, State, Type } from './Option/Option';
+import { EditInfo_Contact } from '../../Services/APIServices_2';
+import { Source } from './Option/Option';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -33,23 +33,27 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
-export const MainPageDialogView = (props,
+export const ContactPageupsert = (
   {
-    openReport,
-  o
+    openvalchangeContact,
+  GetAllData,
+  DTO,
+  open
+  
 }) => {
-  console.log('DTO: ', props.DTO);
-  console.log('open: ', props.open);
+  console.log('DTO: ', DTO);
+  console.log('open: ', open);
   const classes = useStyles();
 
   /////////////////////////////////  API`s  ///////////////////////////////////////
   const [state, setState] = useState
     ({
       id:'',
-      subject: '',
-      status: '',
-      origin: '',
-      priority: ''
+      name: '',
+      phone: '',
+      leadsource: '',
+      email: ''
+
     });
   const [idedit, setidedit] = useState()
   const [loading, setLoading] = useState(false);
@@ -61,10 +65,12 @@ console.log(loading);
 
   const handleEditButton = async () => {
     setLoading(true);
-    props.openvalchange();
-    const result = await EditInfo_Case(idedit,state);
+    openvalchangeContact();
+    showSuccess(('Edit Successfully'));
+
+    const result = await EditInfo_Contact(idedit,state);
     if (result) {
-      props.GetAllData();
+      GetAllData();
       showSuccess(('Edit Successfully'));
     } else showError(('Edit Failed'));
     setLoading(false);
@@ -73,23 +79,24 @@ console.log(loading);
 
 
   useEffect(() => {
-    if (props.DTO) {
+    if (DTO) {
       setState((item) => ({...item,
-        id:(props.DTO && props.DTO.Id) || '',
-        origin: (props.DTO && props.DTO.Origin) || '',
-        priority: (props.DTO && props.DTO.Priority) || '',
-        status: (props.DTO && props.DTO.Status) || '',
-        subject: (props.DTO && props.DTO.Subject) || ''
+        id:(DTO && DTO.Id) || '',
+        name: (DTO && DTO.Name) || '',
+        phone: (DTO && DTO.Phone) || '',
+        email: (DTO && DTO.Email) || '',
+        leadsource: (DTO && DTO.LeadSource) || ''
 
       
       }))
 
-      setidedit(props.DTO && props.DTO.Id)
+      setidedit(DTO && DTO.Id)
           
     }
 
-    console.log('Data>>>' , props.DTO);
-  }, [props.DTO])
+    console.log('Data>>>' , DTO);
+    console.log('Id>>>' , DTO.Id);
+  }, [DTO])
 
 
 
@@ -97,15 +104,14 @@ console.log(loading);
   return (
     
     <Dialog
-      onClose={props.openvalchange}
+      onClose={openvalchangeContact}
       aria-labelledby="simple-dialog-title"
-      open={props.open}
+      open={open}
       className="D1"
       maxWidth={'xl'}
       fullScreen={fullScreen} >
       <div className="login-form">
 
-      {o && <ReportPage open={o}  openReport = {openReport}/ >}
       <form className={classes.root} noValidate autoComplete="off">
 
       <div>
@@ -122,12 +128,30 @@ console.log(loading);
         </div>
         <div>
           <TextField
-            error={state.subject === '' ? "error" : null}
-            label="Subject"
+            error={state.name === '' ? "error" : null}
+            label="Name"
             variant="outlined"
-            value={state.subject}
+            value={state.name}
             onChange={(event) => {
-              setState((item) => ({ ...item, subject: event.target.value }))}} />
+              setState((item) => ({ ...item, name: event.target.value }))}} />
+        </div>
+        <div>
+          <TextField
+            error={state.email === '' ? "error" : null}
+            label="email"
+            variant="outlined"
+            value={state.email}
+            onChange={(event) => {
+              setState((item) => ({ ...item, email: event.target.value }))}} />
+        </div>
+        <div>
+          <TextField
+            error={state.phone === '' ? "error" : null}
+            label="phone"
+            variant="outlined"
+            value={state.phone}
+            onChange={(event) => {
+              setState((item) => ({ ...item, phone: event.target.value }))}} />
         </div>
 
         <div>
@@ -135,66 +159,30 @@ console.log(loading);
             id="select-Status"
             select
             variant="outlined"
-            error={state.status === '' ? "error" : null}
+            error={state.leadsource === '' ? "error" : null}
   
-            label="Status"
+            label="lead source"
             className="dialog"
-            value={state.status}
+            value={state.leadsource}
             onChange={(event) => {
 
-              setState((item) => ({ ...item, status: event.target.value }))}} >
-            {State.map((option) => (
+              setState((item) => ({ ...item, leadsource: event.target.value }))}} >
+            {Source.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>
             ))}
           </TextField>
         </div>
-        <div>
-          <TextField
-            id="select-origin"
-            select
-            variant="outlined"
-            error={state.origin === '' ? "error" : null}
-            margin="normal"
-            label="Origin"
-            className="dialog"
-            value={state.origin}
-            onChange={(event) => {
-              setState((item) => ({ ...item, origin: event.target.value }))}}>
-            {Origin.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </div>
+  
 
-        <div>
-          <TextField
-            id="select-priority"
-            select
-            variant="outlined"
-            error={state.priority === '' ? "error" : null}
-            label="Priority"
-            className="dialog"
-            value={state.priority}
-            onChange={(event) => {
-              setState((item) => ({ ...item, priority: event.target.value })) }} >
-            {Priority.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          </div>
         </form>
       </div>
     
       <DialogActions style={{    justifyContent: 'center'}}>
         <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button  onClick={() => {handleEditButton()} }>Save</Button>
-  <Button  color="secondary"onClick={props.openvalchange}>Exit</Button>
+  <Button  color="secondary"onClick={openvalchangeContact}>Exit</Button>
 </ButtonGroup>
 
   

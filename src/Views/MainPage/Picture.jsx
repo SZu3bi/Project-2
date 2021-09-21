@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{ useEffect, useState, useCallback } from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -60,9 +60,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.default,
   },
   img: {
-    height: 255,
+    
     display: 'block',
-    maxWidth: 400,
+
     overflow: 'hidden',
     width: '100%',
   },
@@ -72,11 +72,14 @@ export const Picture = ({openPicture}) => {
   const classes = useStyles();
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [pic, setPic] =useState(false);
   const maxSteps = tutorialSteps.length;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
+  const open = () => {
+    setPic(true)  };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
@@ -88,18 +91,10 @@ export const Picture = ({openPicture}) => {
 
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
     return (
-          <div>
-<Dialog
-        fullScreen={fullScreen}
-        open={openPicture}
-        // maxWidth={'xl'}
-        aria-labelledby="responsive-dialog-title">
-        <DialogContent  >
-          {/* <img src={psi} alt="sss"></img> */}
-          <Paper square elevation={0} className={classes.header}>
-        <Typography>{tutorialSteps[activeStep].label}</Typography>
-      </Paper>
-      <AutoPlaySwipeableViews
+          <div style={{    width: '50%',
+            margin: '1px auto'}}>
+
+<AutoPlaySwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
         index={activeStep}
         onChangeIndex={handleStepChange}
@@ -118,15 +113,28 @@ export const Picture = ({openPicture}) => {
         position="static"
         variant="text"
         activeStep={activeStep}
-        // nextButton={
-        //   <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-        //     Next
-        //     {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        //   </Button>}
-        // backButton={
-        //   <Button size="small" onClick={handleBack} disabled={activeStep === 0}>{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}Back</Button>}
+        nextButton={
+          <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
+            Next
+            {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
+          </Button>}
+        backButton={
+          <Button size="small" onClick={handleBack} disabled={activeStep === 0}>{theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}Back</Button>}
         />
-        <Button autoFocus onClick={openPicture} color="primary">
+
+<button onClick={open}> Open Pictures</button>
+
+<Dialog
+        fullScreen={fullScreen}
+        open={pic}
+        maxWidth={'xl'}
+        aria-labelledby="responsive-dialog-title">
+        <DialogContent  >
+          <Paper square elevation={0} className={classes.header}>
+        <Typography>{tutorialSteps[activeStep].label}</Typography>
+      </Paper>
+
+        <Button autoFocus onClick={()=>{setPic(false)}} color="primary">
           Exit
         </Button>
 </DialogContent>
