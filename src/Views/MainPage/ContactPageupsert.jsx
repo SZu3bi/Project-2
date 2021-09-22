@@ -13,6 +13,10 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { ReportPage } from './ReportPage';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 import { makeStyles } from '@material-ui/core/styles';
+import { Rating } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import Box from '@mui/material/Box';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +56,8 @@ export const ContactPageupsert = (
       name: '',
       phone: '',
       leadsource: '',
-      email: ''
+      email: '',
+      rate:0 
 
     });
   const [idedit, setidedit] = useState()
@@ -85,7 +90,8 @@ console.log(loading);
         name: (DTO && DTO.Name) || '',
         phone: (DTO && DTO.Phone) || '',
         email: (DTO && DTO.Email) || '',
-        leadsource: (DTO && DTO.LeadSource) || ''
+        leadsource: (DTO && DTO.LeadSource) || '',
+        rate: (DTO && DTO.Rating__c) || ''
 
       
       }))
@@ -99,6 +105,9 @@ console.log(loading);
   }, [DTO])
 
 
+  const handleStaffRatingChange = (event) => {
+    setState((item) => ({ ...item, rate: event.target.value }))
+  };
 
 
   return (
@@ -134,6 +143,26 @@ console.log(loading);
             value={state.name}
             onChange={(event) => {
               setState((item) => ({ ...item, name: event.target.value }))}} />
+        </div>
+        <div>
+        
+
+{/* <TextField 
+    type="number"
+    error={state.rate === '' ? "error" : null}
+    label="Rate"
+    variant="outlined"
+    value={state.rate}
+    InputProps={{
+        inputProps: { 
+            max: 5, min: 0 
+        }
+    }}
+    onChange={(event) => {
+      setState((item) => ({ ...item, rate: event.target.value }))}} 
+    
+/> */}
+
         </div>
         <div>
           <TextField
@@ -175,6 +204,14 @@ console.log(loading);
           </TextField>
         </div>
   
+<Rating
+        name="text-feedback"
+        value={state.rate}
+        
+        precision={0.5}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+        onChange={handleStaffRatingChange}
+      />
 
         </form>
       </div>

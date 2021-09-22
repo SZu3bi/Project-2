@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  } from "react-router-dom";
+import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  ,NavLink} from "react-router-dom";
 import{ MainPageView }from "./MainPageView";
 import About from "./About";
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
@@ -10,16 +10,24 @@ import HomeIcon from '@material-ui/icons/Home';
 import{ ContactPage }from "./ContactPage";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+
+
 
 const useStyles = makeStyles((theme) => ({
   myClassName: {
-    backgroundColor: "blue",
+    // backgroundColor: "red",
     position: "relative",
     "&:hover": {
-      backgroundColor: "red"
+      backgroundColor: "#FEBB0B"
     }
   }
 }));
+
 //sadsaddas
  export const Home = () => {
   const classes = useStyles();
@@ -35,19 +43,27 @@ const useStyles = makeStyles((theme) => ({
   }
   return (
     <div className="App">
-      
-          <Router>
+           <Router>
+       <Box sx={{ flexGrow: 1 }} >
+      <AppBar position="static"style={{ borderRadius: "10px" ,   backgroundColor: "#231E39" ,filter: 'drop-shadow(2px 4px 6px black)' ,  width: 'fit-content' , margin:'1px auto'}}
+ >
+        <Toolbar style={{height: '80px',width: '300px',
+    display: 'flex',
+    justifyContent: 'center' ,filter: 'drop-shadow(2px 4px 6px black)' ,alignItems: 'end'  }}>
+   
           <Route exact path="/">
     <Redirect to="/about" />
 </Route>
          <nav className='navbar navbar-toggleable-sm'>
 
 
-        <div className='collapse navbar-collapse justify-content-center' id='navbarNav'>
+        <div className='collapse navbar-collapse justify-content-center' id='navbarNav' >
           <ul className='nav flex-column flex-md-row' role='nav'>
+          <div>
             <li className='nav-item'>
               {/* Note about Links: parent route is active when any child route is active (it has always class ¨'nav-link-active'). We want the link to '/' be active only when the index route is active. For this reason, we will use 'IndexLink' */}
               {/* <Link to='/about' className='nav-link' activeClassName='nav-link-active'>Home</Link> */}
+       
               <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
 
@@ -56,6 +72,8 @@ const useStyles = makeStyles((theme) => ({
 )} />
               {/* 'activeClassName' allow us to add class when the link is active (current Route). Another option is using 'activeStyle' and CSS styles. */}
             </li>
+            </div>
+            <div>
 
             <li className='nav-item'>
               {/* Link is similar to <a/> tag. The difference is that Link is aware of the Router (screen) it is rendered in. It allows you to wire together links with Routes (via 'to' attribute). */}
@@ -67,6 +85,8 @@ const useStyles = makeStyles((theme) => ({
 </IconButton>
 )} />
             </li>
+            </div>
+            <div>
 
             <li className='nav-item'>
             
@@ -78,7 +98,8 @@ const useStyles = makeStyles((theme) => ({
 )} />
               {/* <Link className='nav-link' activeClassName='nav-link-active' to='/gallery'>Gallery</Link> */}
             </li>
-
+</div>
+<div>
             <li className='nav-item'>
               {/* <Link className='nav-link' activeClassName='nav-link-active' to={location} >Cases</Link> */}
               <Route render={({ history}) => (
@@ -88,6 +109,7 @@ const useStyles = makeStyles((theme) => ({
 </IconButton>
 )} />
             </li>
+            </div>
           </ul>
   
         
@@ -95,12 +117,31 @@ const useStyles = makeStyles((theme) => ({
       </nav>
       
 
-          <Route path="/about" component={About} />
+         
+
+          {/* <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            News
+          </Typography>
+          <Button color="inherit">Login</Button> */}
+        </Toolbar>
+      </AppBar>
+    </Box>
+    <br/>
+    <Route path="/about" component={About} />
           <Route exact path="/cases" component={MainPageView} />
           <Route exact path="/contact" component={ContactPage} />
    
    
-      </Router>
+    </Router>
     </div>
   );
 };

@@ -47,6 +47,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
 
+
 const getSteps=()=> {
   return ['Fill Subject', 'Select Contact', 'Select Status','Select Origin','Select Priority'];
 }
@@ -90,142 +91,6 @@ resetContainer: {
 }));
 
 export const MainPageView = () => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
-  function getStepContent(step) {
-    switch (step) {
-      case 0:
-        return <div>
-    <TextField
-              required
-              id="outlined-required"
-              label="Subject"
-              variant="outlined"
-              error={state.subject === '' ? "error" : null}
-              value={state.subject}
-              onChange={(event) => {
-                setState((item) => ({ ...item, subject: event.target.value })) }} />
-                </div>;
-      case 1:
-        return        <div>
-        <TextField
-              id="outlined-required"
-              select
-     
-              error={state.contact === '' ? "error" : null}
-              className={classes.textField}
-              label="Contact"
-              value={state.contact}
-              helperText="Please select Contact"
-              variant="outlined"
-              onChange={(event) => {
-                setState((item) => ({ ...item, contact: event.target.value }))  }}
-            >
-              {rescon&&rescon.map((option) => (
-                <MenuItem key={option.Id} value={option.Id}>
-                  {option.Name}
-                </MenuItem>
-              ))}
-            </TextField>
-
-
-
-
-         
-
-     {/* <Autocomplete
-      options={rescon}
-      getOptionLabel={option => option.Name}
-      renderInput={params => (
-        <TextField
-          {...params}
-          variant="standard"
-          label="Auto Comp Contact"
-          placeholder="Favorites"
-          margin="normal"
-          value={state.contact}
-          fullWidth
-          // onChange={(event) => {
-          //   console.log(event)
-          //   setState((item) => ({ ...item, contact: event.target.value }))  }}
-          onInputChange={(event, newInputValue) => {
-            console.log(newInputValue)
-             setState((item) => ({ ...item, contact: event.target.value }))
-          }}
-        />
-      )}
- 
-   
-    /> */}
-         </div>;
-      case 2:  return  <div>
-      <TextField
-                id="select-Status"
-                select
-                error={state.status === '' ? "error" : null}
-                className={classes.textField}
-         
-                label="Status"
-                value={state.status}
-                helperText="Please select Status"
-                variant="outlined"
-                onChange={(event) => {
-                  setState((item) => ({ ...item, status: event.target.value })) }}>
-                {State.map((option) => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))}
-              </TextField>
-              </div>;
-                case 3:  return  <div>
-                <TextField
-                  id="select-origin"
-                  select
-                  error={state.origin === '' ? "error" : null}
-                  className={classes.textField}
-                 
-                  label="Origin"
-                  helperText="Please select Origin"
-                  variant="outlined"
-                  value={state.origin}
-                  onChange={(event) => {
-                    setState((item) => ({ ...item, origin: event.target.value })) }}>
-                  {Origin.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
-                </TextField>
-                </div>;
- case 4:  return        <div>
- <TextField
-   id="select-priority"
-   select
-
-   error={state.priority === '' ? "error" : null}
-   className={classes.textField}
-   label="Priority"
-   helperText="Please select Priority"
-   variant="outlined"
-   value={state.priority}
-   onChange={(event) => {
-     setState((item) => ({ ...item, priority: event.target.value })) }}
- // helperText="Please select Priority"
- >
-   {Priority.map((option) => (
-     <MenuItem key={option.value} value={option.value}>
-       {option.label}
-     </MenuItem>
-   ))}
- </TextField>
- </div>;
-
-       
-      default:
-        return 'Unknown step';
-    }
-  }
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -259,7 +124,9 @@ const [state, setState] = useState({
   status: '',
   origin: '',
   priority: '',
-  contact:''} 
+  contact:'',
+  contactid:''
+} 
 );
 
 
@@ -416,8 +283,182 @@ const openPicture = () => {
     setCollapseView(collapseView ? panel : false);
     
   };
-
+  const contactChange = (event, values) => {
+    console.log(values) ;  console.log(event);
+    setState({
+      contact: values
+  
+    });
+  }
   console.log('collapseView',collapseView);
+  const [activeStep, setActiveStep] = React.useState(0);
+  const steps = getSteps();
+  function getStepContent(step) {
+    switch (step) {
+      case 0:
+        return <div>
+ 
+ <Autocomplete
+          options={rescon}
+          getOptionLabel={option =>  option.Id  }
+          onInputChange={(event, values)=>contactChange(event, values)}
+        
+          renderInput={params => (
+            <TextField
+              {...params}
+              variant="standard"
+              label="Contact"
+         
+              margin="normal"
+              fullWidth
+            />
+          )}
+        />
+              {/* <Autocomplete
+      id="highlights-demo"
+      sx={{ width: 300 }}
+      options={rescon}
+      value={state.contact}
+      onInputChange={(event , newValue ) => {
+        console.log(newValue)
+        setState((item) => ({ ...item, contact: event.target.value })) }}
+     
+      getOptionLabel={(option) => option.Name}
+      renderInput={(params) => (
+        <TextField {...params} label="Highlights" margin="normal" />)}/> */}
+      
+    <TextField
+              required
+              id="outlined-required"
+              label="Subject"
+              variant="outlined"
+              error={state.subject === '' ? "error" : null}
+              value={state.subject}
+              onChange={(event) => {
+                setState((item) => ({ ...item, subject: event.target.value })) }} />
+                </div>;
+      case 1:
+        return        <div>
+        <TextField
+              id="outlined-required"
+              select
+     
+              error={state.contact === '' ? "error" : null}
+              className={classes.textField}
+              label="Contact"
+              value={state.contact}
+              helperText="Please select Contact"
+              variant="outlined"
+              onChange={(event) => {
+                setState((item) => ({ ...item, contact: event.target.value }))  }}
+            >
+              {rescon&&rescon.map((option) => (
+                <MenuItem key={option.Id} value={option.Id}>
+                  {option.Name}
+                </MenuItem>
+              ))}
+            </TextField>
+
+
+
+
+         
+
+     {/* <Autocomplete
+      options={rescon}
+      getOptionLabel={option => option.Name}
+      renderInput={params => (
+        <TextField
+          {...params}
+          variant="standard"
+          label="Auto Comp Contact"
+          placeholder="Favorites"
+          margin="normal"
+          value={state.contact}
+          fullWidth
+          // onChange={(event) => {
+          //   console.log(event)
+          //   setState((item) => ({ ...item, contact: event.target.value }))  }}
+          onInputChange={(event, newInputValue) => {
+            console.log(newInputValue)
+             setState((item) => ({ ...item, contact: event.target.value }))
+          }}
+        />
+      )}
+ 
+   
+    /> */}
+         </div>;
+      case 2:  return  <div>
+        
+      <TextField
+                id="select-Status"
+                select
+                error={state.status === '' ? "error" : null}
+                className={classes.textField}
+         
+                label="Status"
+                value={state.status}
+                helperText="Please select Status"
+                variant="outlined"
+                onChange={(event) => {
+                  setState((item) => ({ ...item, status: event.target.value })) }}>
+                {State.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              </div>;
+                case 3:  return  <div>
+                <TextField
+                  id="select-origin"
+                  select
+                  error={state.origin === '' ? "error" : null}
+                  className={classes.textField}
+                 
+                  label="Origin"
+                  helperText="Please select Origin"
+                  variant="outlined"
+                  value={state.origin}
+                  onChange={(event) => {
+                    setState((item) => ({ ...item, origin: event.target.value })) }}>
+                  {Origin.map((option) => (
+                    <MenuItem key={option.value} value={option.value}>
+                      {option.label}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                </div>;
+ case 4:  return        <div>
+ <TextField
+   id="select-priority"
+   select
+
+   error={state.priority === '' ? "error" : null}
+   className={classes.textField}
+   label="Priority"
+   helperText="Please select Priority"
+   variant="outlined"
+   value={state.priority}
+   onChange={(event) => {
+     setState((item) => ({ ...item, priority: event.target.value })) }}
+ // helperText="Please select Priority"
+ >
+   {Priority.map((option) => (
+     <MenuItem key={option.value} value={option.value}>
+       {option.label}
+     </MenuItem>
+   ))}
+ </TextField>
+ </div>;
+
+       
+      default:
+        return 'Unknown step';
+    }
+  }
+  
 
 
 return (

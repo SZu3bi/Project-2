@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { makeStyles } from '@material-ui/core/styles';
-import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact } from '../../Services/APIServices_2';
+import { CreateMainInfo_Contact, GetMainInfo_Contact ,DeleteInfo_Contact,EditInfo_Contact } from '../../Services/APIServices_2';
 import { Source } from './Option/Option';
 import { GetMainInfo_Case } from '../../Services/APIServices';
 import { ContactPageupsert } from './ContactPageupsert';
@@ -28,6 +28,24 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import psi from '../../Views/sales.png'
 import Menu from '@material-ui/core/Menu';
+import { Rating } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import Box from '@mui/material/Box';
+
+
+const labels = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
+
 
 const useStyles = makeStyles((theme) => ({
 root: {
@@ -58,7 +76,7 @@ purple: {
 }));
 
 export const ContactPage = () => {
-
+  
  
 const classes = useStyles();
 const [anchorEl, setAnchorEl] = React.useState(null);
@@ -77,7 +95,8 @@ const [states, setStates] = useState({
     name: '',
     phone:'',
     email:'',
-    leadSource:''
+    leadSource:'',
+    rate:0
   } );
 
 
@@ -114,6 +133,22 @@ const CaseData = useCallback(async () => {
   setLoading(false);
 }, []);
 
+
+const [idedit, setidedit] = useState()
+
+const handleEditButton = async () => {
+  setLoading(true);
+  openvalchangeContact();
+  showSuccess(('Edit Successfully'));
+
+  const result = await EditInfo_Contact(idedit,states);
+  if (result) {
+    GetAllData();
+    showSuccess(('Edit Successfully'));
+  } else showError(('Edit Failed'));
+  setLoading(false);
+
+};
 
 console.log("Contact-data" , result);
 console.log("Case-data" , casedata);
@@ -288,8 +323,15 @@ return (
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button onClick={() => { setOpen(true); setEditVal(s) }}>Edit</Button>
   <Button  color="secondary" onClick={() => handleDeleteButton(s.Id)}>Delete</Button>
+ 
 </ButtonGroup>
-		
+<Rating
+        name="text-feedback"
+        value={s.Rating__c}
+        readOnly
+        precision={0.5}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+      />
     </div>
     <div class="skills">
         <h6>Case Info</h6>
