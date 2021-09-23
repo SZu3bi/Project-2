@@ -283,13 +283,18 @@ const openPicture = () => {
     setCollapseView(collapseView ? panel : false);
     
   };
-  const contactChange = (event, values) => {
-    console.log(values) ;  console.log(event);
-    setState({
-      contact: values
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const contactChange = (event, value) => setSelectedOptions(value);
+  const handleSubmit = () => console.log(selectedOptions);
+
+  // const contactChange = (event, values) => {
+  //   console.log(values) ;  console.log(event);
+  //   setState({
+  //     contact: values
   
-    });
-  }
+  //   });
+  // }
   console.log('collapseView',collapseView);
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -300,9 +305,12 @@ const openPicture = () => {
  
  <Autocomplete
           options={rescon}
-          getOptionLabel={option =>  option.Id  }
-          onInputChange={(event, values)=>contactChange(event, values)}
-        
+          getOptionLabel={(option) =>  option.Name  }
+          // onInputChange={(event, values)=>contactChange(event, values)}
+          // onInputChange={contactChange}
+          onChange={contactChange}
+
+        Value={selectedOptions}
           renderInput={params => (
             <TextField
               {...params}
@@ -314,6 +322,8 @@ const openPicture = () => {
             />
           )}
         />
+        <button onClick={handleSubmit}>Submit!</button>
+
               {/* <Autocomplete
       id="highlights-demo"
       sx={{ width: 300 }}
@@ -507,7 +517,7 @@ return (
    
     <h3>{s.Subject}</h3>
     <h6>Loc : Jordan</h6>
-    <h6>Contact Name : {s.Contact.Name}</h6>
+    {/* <h6>Contact Name : {s.Contact.Name}</h6> */}
     <h6>Contact Id : {s.ContactId}</h6>
     <div class="buttons">
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
