@@ -134,7 +134,6 @@ const CaseData = useCallback(async () => {
 }, []);
 
 
-const [idedit, setidedit] = useState()
 
 const handleEditButton = async () => {
   setLoading(true);
@@ -149,6 +148,38 @@ const handleEditButton = async () => {
   setLoading(false);
 
 };
+const [state, setState] = useState
+({
+  id:'',
+  name: '',
+  phone: '',
+  leadsource: '',
+  email: '',
+  rate:0 
+
+});
+const [idedit, setidedit] = useState()
+
+useEffect(() => {
+  if (idedit) {
+    setStates((item) => ({...item,
+      id:(idedit && idedit.Id) || '',
+      name: (idedit && idedit.Name) || '',
+      phone: (idedit && idedit.Phone) || '',
+      email: (idedit && idedit.Email) || '',
+      leadsource: (idedit && idedit.LeadSource) || '',
+      rate: (idedit && idedit.Rating__c) || ''
+
+    
+    }))
+
+    setidedit(idedit && idedit.Id)
+    console.log('Data>>>' , idedit.Name);
+  }
+
+  
+
+}, [idedit])
 
 console.log("Contact-data" , result);
 console.log("Case-data" , casedata);
@@ -271,7 +302,12 @@ const handleClose = () => {
     setCollapseView(collapseView ? panel : false);
     
   };
+ 
 
+  const info  = (id) =>{
+    showSuccess(`Name :${id}`);
+
+  }
   console.log('collapseView',collapseView);
 
 
@@ -312,7 +348,7 @@ return (
 <div className="cards">
 
 {result && result.map((s ,index ) => ( 
-<div class="card-container">
+<div class="card-container" key={index}>
     <span class="pro"> {s.Email}</span>
     <img id="avatar" src={psi} alt="lead"></img>
     <h3>{s.Name}</h3>
@@ -323,6 +359,7 @@ return (
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button onClick={() => { setOpen(true); setEditVal(s) }}>Edit</Button>
   <Button  color="secondary" onClick={() => handleDeleteButton(s.Id)}>Delete</Button>
+  <Button  color="secondary" onClick={() => info(s.Name)}>Info</Button>
  
 </ButtonGroup>
 <Rating

@@ -124,8 +124,8 @@ const [state, setState] = useState({
   status: '',
   origin: '',
   priority: '',
-  contact:'',
-  contactid:''
+  contact:''
+  // contactid:''
 } 
 );
 
@@ -305,11 +305,11 @@ const openPicture = () => {
  
  <Autocomplete
           options={rescon}
-          getOptionLabel={(option) =>  option.Name  }
+          getOptionLabel={option=>  option.Name  }
           // onInputChange={(event, values)=>contactChange(event, values)}
           // onInputChange={contactChange}
           onChange={contactChange}
-
+          getOptionSelected={option =>  option.Id}
         Value={selectedOptions}
           renderInput={params => (
             <TextField
