@@ -31,6 +31,14 @@ import Menu from '@material-ui/core/Menu';
 import { Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
+import Backdrop from '@mui/material/Backdrop';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
+import SaveIcon from '@mui/icons-material/Save';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 
 const labels = {
@@ -304,8 +312,8 @@ const handleClose = () => {
   };
  
 
-  const info  = (id) =>{
-    showSuccess(`Name :${id}`);
+  const info  = (id , name) =>{
+    showSuccess(`${id}` + "\n" +`${name}` );
 
   }
   console.log('collapseView',collapseView);
@@ -359,7 +367,7 @@ return (
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
   <Button onClick={() => { setOpen(true); setEditVal(s) }}>Edit</Button>
   <Button  color="secondary" onClick={() => handleDeleteButton(s.Id)}>Delete</Button>
-  <Button  color="secondary" onClick={() => info(s.Name)}>Info</Button>
+  <Button  color="secondary" onClick={() => info(s.Name , s.Id)}>Info</Button>
  
 </ButtonGroup>
 <Rating

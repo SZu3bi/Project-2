@@ -1,6 +1,7 @@
 import { config, HttpServices } from '../config';
 import { showError } from '../Helper/Tostify.Helper';
 
+
 export const GetMainInfo_Case = async () => {
   const result = await HttpServices.get(
     `${config.server_address}`, {
@@ -14,6 +15,18 @@ export const GetMainInfo_Case = async () => {
   return result;
 };
 
+export const GetMainhistory = async () => {
+  const result = await HttpServices.get(
+    `${config.server_address_h}`, {
+    headers: {
+      Authorization: `Bearer ${config.token}`,
+    },
+  }
+  )
+    .then((data_3) => data_3)
+    .catch((error) => showError('Get Main Info Filed'));
+  return result;
+};
 
 export const CreateMainInfo_Case = async (body) => {
   const result = await HttpServices.post(

@@ -1,6 +1,7 @@
-import React from "react";
-import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  ,NavLink} from "react-router-dom";
+import React, { useEffect, useState, useCallback } from 'react';
+import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  ,NavLink, Switch} from "react-router-dom";
 import{ MainPageView }from "./MainPageView";
+import{ HistoryPage }from "./HistoryPage";
 import About from "./About";
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import WorkIcon from '@material-ui/icons/Work';
@@ -28,8 +29,14 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
+
 //sadsaddas
  export const Home = () => {
+
+  const [state, setState] = useState({
+    name: "React",
+    isUserAuthenticated: true
+  } );
   const classes = useStyles();
 
   const history = useHistory();
@@ -81,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
               <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
 
-<InfoIcon  onClick={() => { history.push('/about') }} ></InfoIcon>
+<InfoIcon  onClick={() => { history.push('/history') }} ></InfoIcon>
 </IconButton>
 )} />
             </li>
@@ -136,11 +143,24 @@ const useStyles = makeStyles((theme) => ({
       </AppBar>
     </Box>
     <br/>
-    <Route path="/about" component={About} />
+    <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => {
+                    return (
+                      state.isUserAuthenticated ?
+                      <Redirect to="/contact" /> :
+                      <Redirect to="/history" /> 
+                    )
+                }}
+              />
+    <Route path="/about" component={HistoryPage} />
           <Route exact path="/cases" component={MainPageView} />
           <Route exact path="/contact" component={ContactPage} />
+          <Route exact path="/history" component={HistoryPage} />
    
-   
+          </Switch>
     </Router>
     </div>
   );
