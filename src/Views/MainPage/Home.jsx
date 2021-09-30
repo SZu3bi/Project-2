@@ -159,6 +159,7 @@ const useStyles = makeStyles((theme) => ({
           <Route exact path="/cases" component={MainPageView} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/history" component={HistoryPage} />
+          <Route exact path="/gallery" component={About} />
    
           </Switch>
     </Router>
