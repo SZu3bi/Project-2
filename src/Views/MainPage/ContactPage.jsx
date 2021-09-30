@@ -31,7 +31,6 @@ import Menu from '@material-ui/core/Menu';
 import { Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
-import Backdrop from '@mui/material/Backdrop';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
@@ -39,6 +38,10 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
+
+
+
+
 
 
 const labels = {
@@ -84,7 +87,12 @@ purple: {
 }));
 
 export const ContactPage = () => {
+
   
+  const [openD, setOpenD] = React.useState(false);
+  const handleOpenD = () => setOpenD(true);
+  const handleCloseD = () => setOpenD(false);
+
  
 const classes = useStyles();
 const [anchorEl, setAnchorEl] = React.useState(null);
@@ -254,16 +262,16 @@ const handleDeleteButton = async (deletedId) => {
     };
 
 
-    var mybutton = document.getElementById("myBtn");
-    window.onscroll = function() {scroll()};
+    // var mybutton = document.getElementById("myBtn");
+    // window.onscroll = function() {scroll()};
 
-    const  scroll =() => {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-      } else {
-        mybutton.style.display = "none";
-      }
-    }
+    // const  scroll =() => {
+    //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    //     mybutton.style.display = "block";
+    //   } else {
+    //     mybutton.style.display = "block";
+    //   }
+    // }
     const clearState = () => {
       setStates({
         name: '',
@@ -287,13 +295,24 @@ useEffect(() => {
 
 
 
-const handleClickOpen = () => {
+const handleClickOpen = (id) => {
 //   console.log('subject: ', name.subject);
+if(id==1){
   setOpenContactAdd(true);
+}else{
+  handleClose()
+}
 };
 const handleClose = () => {
   setOpenContactAdd(false);
 };
+
+const actions = [
+  { icon: <FileCopyIcon />, name: 'Copy' ,id:1 },
+  { icon: <SaveIcon />, name: 'Save'  ,id:2 },
+  { icon: <PrintIcon />, name: 'Print'  ,id:3 },
+  { icon: <ShareIcon />, name: 'Share'  ,id:4 },
+];
 
   const OpenAdd = (event) => {
     setAnchorEl(event.currentTarget);
@@ -321,18 +340,44 @@ const handleClose = () => {
 
 return (
   <div className='Agents-wrapper view-wrapper'>
-
+   
 {open && <ContactPageupsert open={open} DTO={EditVal} 
     GetAllData={() => GetAllData()} openvalchangeContact = {openvalchangeContact}/> }
-    <button onClick={top} id="myBtn" title="Go to top">Top</button>
+    {/* <button onClick={top} id="myBtn" title="Go to top">Top</button> */}
+    <div className="speedDial">
+      <SpeedDial
+      id="myBtn"
+        ariaLabel="SpeedDial uncontrolled open example"
 
+        icon={<SpeedDialIcon />}
+        onClose={handleCloseD}
+        onOpen={handleOpenD}
+        open={openD}
+        direction="left"
+      >
+        {actions.map((action) => (
+          
+          <SpeedDialAction
+          id={action.id}
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={() => handleClickOpen(action.id)}
+// onClick={()=>console.log("id",action.id)}
+    
+          
+                />
+        ))}
+        
+      </SpeedDial>
+      </div>
     {loading ? <CircularProgress /> : <div>
 
 <div style={{display: 'inline-block'}}>
   {/* <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== result && result !== null && result.length} color="primary" style={{float:'left'}}>
         <PersonIcon />
       </Badge></div> */}
-      <div>
+      {/* <div>
       <Button  
       aria-controls="customized-menu"
       aria-haspopup="true"
@@ -341,7 +386,7 @@ return (
       onClick={OpenAdd}>
         Open Menu
       </Button>
-      </div>
+      </div> */}
      
       <Menu
         id="simple-menu"

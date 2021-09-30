@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 //sadsaddas
- export const Home = () => {
+ export const Home = (handleClickOpen , handleCloseD,handleOpenD,openD) => {
 
   const [state, setState] = useState({
     name: "React",
