@@ -284,6 +284,13 @@ const refresh = ()=>{
           > */}
 
           {/* </Typography> */}
+          <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+                <RefreshIcon onClick={refresh} />
+            </IconButton>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -343,13 +350,13 @@ const refresh = ()=>{
                 <BusinessCenterIcon />
               </Badge>
             </IconButton>
-            <IconButton
+            {/* <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
                 <RefreshIcon onClick={refresh} />
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
