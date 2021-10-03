@@ -222,22 +222,22 @@ setTimeout(() => {
     };
 
 
-    var mybutton = document.getElementById("myBtn");
-    window.onscroll = function() {scroll()};
+    // var mybutton = document.getElementById("myBtn");
+    // window.onscroll = function() {scroll()};
 
-    const  scroll =() => {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-      } else {
-        mybutton.style.display = "none";
-      }
-    }
+    // const  scroll =() => {
+    //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    //     mybutton.style.display = "block";
+    //   } else {
+    //     mybutton.style.display = "none";
+    //   }
+    // }
 
-    const top = () => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-      console.log("sssss");
-    }
+    // const top = () => {
+    //   document.body.scrollTop = 0;
+    //   document.documentElement.scrollTop = 0;
+    //   console.log("sssss");
+    // }
 
 /////////////////////////////////  API`s  ///////////////////////////////////////
 useEffect(() => {
@@ -473,7 +473,7 @@ const openPicture = () => {
 
 return (
   <div className='Agents-wrapper view-wrapper'>
-    <button onClick={top} id="myBtn" title="Go to top">Top</button>
+    {/* <button onClick={top} id="myBtn" title="Go to top">Top</button> */}
 
     {open && <MainPageDialogView open={open} DTO={EditVal} 
     GetAllData={() => GetAllData()} openvalchange = {openvalchange} o={o}  setO={setO}/> }

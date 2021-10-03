@@ -67,8 +67,11 @@ body {
     font-family: consolas;
     background-color: rgb(56 56 56);
     /* background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/225748/MD_background.png) no-repeat center center fixed; */
-    background-size: cover;
-    background-image: url('../src//Views/back.jpg');
+    /* background-size: cover;
+    background-image: url('../src//Views/coolpic.jpg'); */
+    background: #141e30; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #141e30, #243b55); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #141e30, #243b55); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     cursor: default;
 }
@@ -347,3 +350,18 @@ button.primary.ghost {
     color: #fff;
     background-color: #231E39;
   }
+
+
+  /* @media print {
+    body * {
+        display: none;
+    }
+    #printable-area {
+        display: block;
+    }
+} */
+/* 
+@media print { 
+    .no-printme  { display: none;}
+    .printme  { display: block;}
+} */

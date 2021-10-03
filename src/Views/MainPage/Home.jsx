@@ -16,7 +16,60 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import Badge from '@mui/material/Badge';
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import MenuIcon from '@mui/icons-material/Menu';
+import SearchIcon from '@mui/icons-material/Search';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import MoreIcon from '@mui/icons-material/MoreVert';
+import psi from '../../Views/sales.png'
 
+
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
+  },
+  marginRight: theme.spacing(2),
+  marginLeft: 0,
+  width: '100%',
+  [theme.breakpoints.up('sm')]: {
+    marginLeft: theme.spacing(3),
+    width: 'auto',
+  },
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
+    },
+  },
+}));
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +85,106 @@ const useStyles = makeStyles((theme) => ({
 
 //sadsaddas
  export const Home = (handleClickOpen , handleCloseD,handleOpenD,openD) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =useState(null);
 
+  const isMenuOpen = Boolean(anchorEl);
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const menuId = 'primary-search-account-menu';
+  const renderMenu = (
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+    </Menu>
+  );
+
+  const mobileMenuId = 'primary-search-account-menu-mobile';
+  const renderMobileMenu = (
+    <Menu
+      anchorEl={mobileMoreAnchorEl}
+      anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      id={mobileMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}
+      open={isMobileMenuOpen}
+      onClose={handleMobileMenuClose}
+    >
+      
+      <MenuItem>
+        <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<HomeIcon  onClick={() => { history.push('/contact') }} ></HomeIcon>
+</IconButton>
+)} />
+        <p>Contact</p>
+      </MenuItem>
+      <MenuItem>
+   
+   <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<WorkIcon   onClick={() => { history.push('/cases'); console.log("h",history) }}></WorkIcon>
+</IconButton>
+)} />
+     <p>Case</p>
+      </MenuItem>
+      <MenuItem onClick={handleProfileMenuOpen}>
+        <IconButton
+          size="large"
+          aria-label="account of current user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <AccountCircle />
+        </IconButton>
+        <p>Profile</p>
+      </MenuItem>
+    </Menu>
+  );
+
+
+
+  
   const [state, setState] = useState({
     name: "React",
     isUserAuthenticated: true
@@ -49,9 +201,109 @@ const useStyles = makeStyles((theme) => ({
 
   }
   return (
-    <div className="App">
-           <Router>
-       <Box sx={{ flexGrow: 1 }} >
+    
+    <div className="App no-printme" >
+       <Router>
+       <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" style={{    background: 'black'}}>
+        <Toolbar>
+          {/* <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton> */}
+          {/* <Typography
+            variant="h6"
+            noWrap
+            component="div"
+            sx={{ display: { xs: 'none', sm: 'block' } }}
+          > */}
+
+          {/* </Typography> */}
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              inputProps={{ 'aria-label': 'search' }}
+            />
+          </Search>
+          <img style={{width:'5%'}} src={psi} alt="lead"></img>
+
+          <Box sx={{ flexGrow: 1 }} />
+
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              {/* <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge> */}
+                            <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<HomeIcon  onClick={() => { history.push('/contact') }} ></HomeIcon>
+</IconButton>
+)} />
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+                        <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<WorkIcon   onClick={() => { history.push('/cases'); console.log("h",history) }}></WorkIcon>
+</IconButton>
+)} />
+                {/* <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge> */}
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={17} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              size="large"
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </Box>
+          
+       {/* <Box sx={{ flexGrow: 1 }} >
       <AppBar position="static"style={{ borderRadius: "10px" ,   backgroundColor: "#231E39" ,filter: 'drop-shadow(2px 4px 6px black)' ,  width: 'fit-content' , margin:'1px auto'}}
  >
         <Toolbar style={{height: '80px',width: '300px',
@@ -68,8 +320,7 @@ const useStyles = makeStyles((theme) => ({
           <ul className='nav flex-column flex-md-row' role='nav'>
           <div>
             <li className='nav-item'>
-              {/* Note about Links: parent route is active when any child route is active (it has always class ¨'nav-link-active'). We want the link to '/' be active only when the index route is active. For this reason, we will use 'IndexLink' */}
-              {/* <Link to='/about' className='nav-link' activeClassName='nav-link-active'>Home</Link> */}
+           
        
               <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
@@ -77,14 +328,12 @@ const useStyles = makeStyles((theme) => ({
 <HomeIcon  onClick={() => { history.push('/contact') }} ></HomeIcon>
 </IconButton>
 )} />
-              {/* 'activeClassName' allow us to add class when the link is active (current Route). Another option is using 'activeStyle' and CSS styles. */}
             </li>
             </div>
             <div>
 
             <li className='nav-item'>
-              {/* Link is similar to <a/> tag. The difference is that Link is aware of the Router (screen) it is rendered in. It allows you to wire together links with Routes (via 'to' attribute). */}
-              {/* <Link className='nav-link' activeClassName='nav-link-active' to=''>About</Link> */}
+          
               <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
 
@@ -103,12 +352,10 @@ const useStyles = makeStyles((theme) => ({
 <PhotoLibraryIcon   onClick={() => { history.push('/gallery') }} ></PhotoLibraryIcon>
 </IconButton>
 )} />
-              {/* <Link className='nav-link' activeClassName='nav-link-active' to='/gallery'>Gallery</Link> */}
             </li>
 </div>
 <div>
             <li className='nav-item'>
-              {/* <Link className='nav-link' activeClassName='nav-link-active' to={location} >Cases</Link> */}
               <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
 
@@ -126,22 +373,10 @@ const useStyles = makeStyles((theme) => ({
 
          
 
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
-          </Typography>
-          <Button color="inherit">Login</Button> */}
+         
         </Toolbar>
       </AppBar>
-    </Box>
+    </Box> */}
     <br/>
     <Switch>
               <Route

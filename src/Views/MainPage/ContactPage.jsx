@@ -38,7 +38,7 @@ import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
-
+import AddIcon from '@mui/icons-material/Add';
 
 
 
@@ -299,8 +299,8 @@ const handleClickOpen = (id) => {
 //   console.log('subject: ', name.subject);
 if(id==1){
   setOpenContactAdd(true);
-}else{
-  handleClose()
+}else if (id==3){
+  window.print();
 }
 };
 const handleClose = () => {
@@ -308,8 +308,8 @@ const handleClose = () => {
 };
 
 const actions = [
-  { icon: <FileCopyIcon />, name: 'Copy' ,id:1 },
-  { icon: <SaveIcon />, name: 'Save'  ,id:2 },
+  { icon: <AddIcon />, name: 'Add' ,id:1 },
+
   { icon: <PrintIcon />, name: 'Print'  ,id:3 },
   { icon: <ShareIcon />, name: 'Share'  ,id:4 },
 ];
@@ -398,10 +398,10 @@ return (
       
       </Menu>
     </div>
-<div className="cards">
+<div className="cards printme">
 
 {result && result.map((s ,index ) => ( 
-<div class="card-container" key={index}>
+<div class="card-container" key={index} >
     <span class="pro"> {s.Email}</span>
     <img id="avatar" src={psi} alt="lead"></img>
     <h3>{s.Name}</h3>

@@ -75,7 +75,7 @@ return (
   <div className='Agents-wrapper view-wrapper'>
 
 
-    <button onClick={top} id="myBtn" title="Go to top">Top</button>
+    {/* <button onClick={top} id="myBtn" title="Go to top">Top</button> */}
 
     {loading ? <CircularProgress /> : <div>
 
