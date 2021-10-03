@@ -28,8 +28,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import psi from '../../Views/sales.png'
+import {GetMainInfo_Contact} from '../../Services/APIServices_2';
+import { GetMainInfo_Case } from '../../Services/APIServices';
 
-
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -85,6 +88,33 @@ const useStyles = makeStyles((theme) => ({
 
 //sadsaddas
  export const Home = (handleClickOpen , handleCloseD,handleOpenD,openD) => {
+  const [res, setRes] = useState();
+  const [rese, setRese] = useState();
+
+
+  const Data = useCallback(async () => {
+    const result = await GetMainInfo_Contact();
+    if (result) {
+      const sortedResult = result.data.sort((a, b) =>
+        a.Id.localeCompare(b.Id)
+      );
+      setRes(sortedResult);
+      console.log('item length', result.data.length);
+    } else setRes(null);
+  }, []);
+
+  const GetAllData = useCallback(async () => {
+    const result = await GetMainInfo_Case();
+    if (result) {
+      const sortedResult = result.data.sort((a, b) =>
+        a.Id.localeCompare(b.Id)
+      );
+      setRese(sortedResult);
+      console.log('item ', result.data.length);
+    } else setRese(null);
+  }, []);
+
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =useState(null);
 
@@ -108,6 +138,11 @@ const useStyles = makeStyles((theme) => ({
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+
+  useEffect(() => {
+    Data()
+    GetAllData()
+    }, [Data,GetAllData]);
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -166,6 +201,28 @@ const useStyles = makeStyles((theme) => ({
 </IconButton>
 )} />
      <p>Case</p>
+      </MenuItem>
+
+      <MenuItem>
+
+      <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={undefined !== res && res !== null && res.length} color="error">
+                <PermContactCalendarIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={undefined !== rese && rese !== null && rese.length} color="error">
+                <BusinessCenterIcon />
+              </Badge>
+            </IconButton>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -264,13 +321,23 @@ const useStyles = makeStyles((theme) => ({
                   <NotificationsIcon />
                 </Badge> */}
             </IconButton>
+          
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
               color="inherit"
             >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
+              <Badge badgeContent={undefined !== res && res !== null && res.length} color="error">
+                <PermContactCalendarIcon />
+              </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+              <Badge badgeContent={undefined !== rese && rese !== null && rese.length} color="error">
+                <BusinessCenterIcon />
               </Badge>
             </IconButton>
             <IconButton
