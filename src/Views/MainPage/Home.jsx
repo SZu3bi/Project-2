@@ -30,7 +30,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import psi from '../../Views/sales.png'
 import {GetMainInfo_Contact} from '../../Services/APIServices_2';
 import { GetMainInfo_Case } from '../../Services/APIServices';
-
+import RefreshIcon from '@mui/icons-material/Refresh';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 
@@ -114,7 +114,10 @@ const useStyles = makeStyles((theme) => ({
     } else setRese(null);
   }, []);
 
-
+const refresh = ()=>{
+  Data();
+  GetAllData();
+}
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =useState(null);
 
@@ -339,6 +342,13 @@ const useStyles = makeStyles((theme) => ({
               <Badge badgeContent={undefined !== rese && rese !== null && rese.length} color="error">
                 <BusinessCenterIcon />
               </Badge>
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+                <RefreshIcon onClick={refresh} />
             </IconButton>
             <IconButton
               size="large"
