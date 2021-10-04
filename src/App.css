@@ -370,3 +370,12 @@ button.primary.ghost {
     .no-printme  { display: none;}
 
 } */
+
+.pancakes-text {
+  font-family: Satisfy, cursive;
+  font-size: 2em;
+  margin: 1em 0;
+  color: #3f51b5;
+  text-shadow: 0.02em 0.02em 0 rgb(8, 8, 8), 0 0 0.5em rgb(110, 0, 110);
+}
+

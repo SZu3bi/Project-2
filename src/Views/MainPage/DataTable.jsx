@@ -87,16 +87,17 @@ export const DataTable = () => {
      
       <div style={{width: '90%',margin: '1px auto'}}>
          {loading ? <CircularProgress /> : <div>
-        <h1>Contact</h1>
+     
         <TableContainer component={Paper} >
-      
+        <p className="pancakes-text">Contact</p>
           <Table >
+ 
             <TableHead>
-              <TableRow>
-                <TableCell align="center">Name</TableCell>
-                <TableCell align="center">Email</TableCell>
-                <TableCell align="center">Phone</TableCell>
-                <TableCell align="center">LeadSource</TableCell>
+              <TableRow style={{backgroundColor:'#3f51b5'}}>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Name</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Email</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Phone</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">LeadSource</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -123,17 +124,17 @@ export const DataTable = () => {
       />
         </TableContainer>
     
-        <h1>Case</h1>
         <TableContainer component={Paper} >
       
+        <p className="pancakes-text">Case</p>
           <Table >
             <TableHead>
-              <TableRow>
-                <TableCell align="center">Subject</TableCell>
-                <TableCell align="center">Status</TableCell>
-                <TableCell align="center">ContactId</TableCell>
-                <TableCell align="center">Origin</TableCell>
-                <TableCell align="center">Priority</TableCell>
+              <TableRow style={{backgroundColor:'#3f51b5'}}>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Subject</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Status</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">ContactId</TableCell>
+                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Origin</TableCell>
+                <TableCell  style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Priority</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
