@@ -28,6 +28,10 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
 import HomeWorkIcon from '@mui/icons-material/HomeWork';
+import PrintIcon from '@mui/icons-material/Print';
+
+
+
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -113,6 +117,9 @@ const useStyles = makeStyles((theme) => ({
 const refresh = ()=> {
   Data();
   GetAllData();
+}
+const print = ()=> {
+  window.print();
 }
 
 
@@ -300,6 +307,14 @@ const refresh = ()=> {
               color="inherit"
             >
                 <RefreshIcon onClick={refresh} />
+         
+            </IconButton>
+            <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+            <PrintIcon onClick={print}/>
             </IconButton>
           <Search>
             <SearchIconWrapper>
@@ -311,7 +326,7 @@ const refresh = ()=> {
             />
           </Search>
           <img style={{width:'5%'}} src={psi} alt="lead"></img>
-
+          
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
