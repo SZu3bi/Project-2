@@ -3,29 +3,23 @@ import { Route, Link, BrowserRouter as Router ,useHistory, Redirect  ,NavLink, S
 import{ MainPageView }from "./MainPageView";
 import{ HistoryPage }from "./HistoryPage";
 import About from "./About";
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
 import WorkIcon from '@material-ui/icons/Work';
-import InfoIcon from '@material-ui/icons/Info';
 import {GlobalHistory} from '../../Helper/Middleware.Helper'
 import HomeIcon from '@material-ui/icons/Home';
 import{ ContactPage }from "./ContactPage";
+import{ DataTable }from "./DataTable";
 import { IconButton } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import psi from '../../Views/sales.png'
 import {GetMainInfo_Contact} from '../../Services/APIServices_2';
@@ -33,7 +27,7 @@ import { GetMainInfo_Case } from '../../Services/APIServices';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
-
+import HomeWorkIcon from '@mui/icons-material/HomeWork';
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -88,6 +82,8 @@ const useStyles = makeStyles((theme) => ({
 
 //sadsaddas
  export const Home = (handleClickOpen , handleCloseD,handleOpenD,openD) => {
+
+
   const [res, setRes] = useState();
   const [rese, setRese] = useState();
 
@@ -114,10 +110,12 @@ const useStyles = makeStyles((theme) => ({
     } else setRese(null);
   }, []);
 
-const refresh = ()=>{
+const refresh = ()=> {
   Data();
   GetAllData();
 }
+
+
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =useState(null);
 
@@ -146,6 +144,8 @@ const refresh = ()=>{
     Data()
     GetAllData()
     }, [Data,GetAllData]);
+
+
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -186,6 +186,15 @@ const refresh = ()=>{
       onClose={handleMobileMenuClose}
     >
       
+      <MenuItem>
+      <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<HomeIcon   onClick={() => { history.push('/home'); console.log("h",history) }}></HomeIcon>
+</IconButton>
+)} />
+        <p>Home</p>
+      </MenuItem>
       <MenuItem>
         <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
@@ -243,7 +252,6 @@ const refresh = ()=>{
   );
 
 
-
   
   const [state, setState] = useState({
     name: "React",
@@ -258,11 +266,13 @@ const refresh = ()=>{
   }
    const handleClick =()=> {
     GlobalHistory.push('/cases');
-
   }
+
   return (
     
     <div className="App no-printme" >
+
+    
        <Router>
        <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" style={{    background: 'black'}}>
@@ -305,17 +315,22 @@ const refresh = ()=>{
           <Box sx={{ flexGrow: 1 }} />
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              {/* <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge> */}
-                            <Route render={({ history}) => (
+          <IconButton
+              size="large"
+              aria-label="show 17 new notifications"
+              color="inherit"
+            >
+                        <Route render={({ history}) => (
       <IconButton color="inherit" className={classes.myClassName}>
 
-<HomeIcon  onClick={() => { history.push('/contact') }} ></HomeIcon>
+<HomeIcon   onClick={() => { history.push('/home'); console.log("h",history) }}></HomeIcon>
 </IconButton>
 )} />
+                {/* <Badge badgeContent={17} color="error">
+                  <NotificationsIcon />
+                </Badge> */}
             </IconButton>
+      
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -331,7 +346,18 @@ const refresh = ()=>{
                   <NotificationsIcon />
                 </Badge> */}
             </IconButton>
-          
+   
+            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+              {/* <Badge badgeContent={4} color="error">
+                <MailIcon />
+              </Badge> */}
+                            <Route render={({ history}) => (
+      <IconButton color="inherit" className={classes.myClassName}>
+
+<HomeWorkIcon  onClick={() => { history.push('/contact') }} ></HomeWorkIcon>
+</IconButton>
+)} />
+            </IconButton>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"
@@ -350,13 +376,7 @@ const refresh = ()=>{
                 <BusinessCenterIcon />
               </Badge>
             </IconButton>
-            {/* <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-                <RefreshIcon onClick={refresh} />
-            </IconButton> */}
+ 
             <IconButton
               size="large"
               edge="end"
@@ -387,80 +407,7 @@ const refresh = ()=>{
       {renderMenu}
     </Box>
           
-       {/* <Box sx={{ flexGrow: 1 }} >
-      <AppBar position="static"style={{ borderRadius: "10px" ,   backgroundColor: "#231E39" ,filter: 'drop-shadow(2px 4px 6px black)' ,  width: 'fit-content' , margin:'1px auto'}}
- >
-        <Toolbar style={{height: '80px',width: '300px',
-    display: 'flex',
-    justifyContent: 'center' ,filter: 'drop-shadow(2px 4px 6px black)' ,alignItems: 'end'  }}>
    
-          <Route exact path="/">
-    <Redirect to="/about" />
-</Route>
-         <nav className='navbar navbar-toggleable-sm'>
-
-
-        <div className='collapse navbar-collapse justify-content-center' id='navbarNav' >
-          <ul className='nav flex-column flex-md-row' role='nav'>
-          <div>
-            <li className='nav-item'>
-           
-       
-              <Route render={({ history}) => (
-      <IconButton color="inherit" className={classes.myClassName}>
-
-<HomeIcon  onClick={() => { history.push('/contact') }} ></HomeIcon>
-</IconButton>
-)} />
-            </li>
-            </div>
-            <div>
-
-            <li className='nav-item'>
-          
-              <Route render={({ history}) => (
-      <IconButton color="inherit" className={classes.myClassName}>
-
-<InfoIcon  onClick={() => { history.push('/history') }} ></InfoIcon>
-</IconButton>
-)} />
-            </li>
-            </div>
-            <div>
-
-            <li className='nav-item'>
-            
-              <Route render={({ history}) => (
-      <IconButton color="inherit" className={classes.myClassName}>
-
-<PhotoLibraryIcon   onClick={() => { history.push('/gallery') }} ></PhotoLibraryIcon>
-</IconButton>
-)} />
-            </li>
-</div>
-<div>
-            <li className='nav-item'>
-              <Route render={({ history}) => (
-      <IconButton color="inherit" className={classes.myClassName}>
-
-<WorkIcon   onClick={() => { history.push('/cases'); console.log("h",history) }}></WorkIcon>
-</IconButton>
-)} />
-            </li>
-            </div>
-          </ul>
-  
-        
-        </div>
-      </nav>
-      
-
-         
-
-         
-        </Toolbar>
-      </AppBar>
-    </Box> */}
     <br/>
     <Switch>
               <Route
@@ -469,8 +416,8 @@ const refresh = ()=>{
                 render={() => {
                     return (
                       state.isUserAuthenticated ?
-                      <Redirect to="/contact" /> :
-                      <Redirect to="/history" /> 
+                      <Redirect to="/home" /> :
+                      <Redirect to="/contact" /> 
                     )
                 }}
               />
@@ -478,7 +425,7 @@ const refresh = ()=>{
           <Route exact path="/cases" component={MainPageView} />
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/history" component={HistoryPage} />
-          <Route exact path="/gallery" component={About} />
+          <Route exact path="/home" component={DataTable} />
    
           </Switch>
     </Router>

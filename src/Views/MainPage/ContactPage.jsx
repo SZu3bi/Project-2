@@ -162,8 +162,8 @@ const handleEditButton = async () => {
     showSuccess(('Edit Successfully'));
   } else showError(('Edit Failed'));
   setLoading(false);
-
 };
+
 const [state, setState] = useState
 ({
   id:'',
@@ -172,8 +172,9 @@ const [state, setState] = useState
   leadsource: '',
   email: '',
   rate:0 
-
 });
+
+
 const [idedit, setidedit] = useState()
 
 useEffect(() => {
@@ -186,9 +187,7 @@ useEffect(() => {
       leadsource: (idedit && idedit.LeadSource) || '',
       rate: (idedit && idedit.Rating__c) || ''
 
-    
     }))
-
     setidedit(idedit && idedit.Id)
     console.log('Data>>>' , idedit.Name);
   }
@@ -239,9 +238,7 @@ setTimeout(() => {
   setLoading(false);
 };
 
-const handleRemove = () => {
-  setResult(result.filter(p => p.Id !== casedata.ContactId));
-};
+
 /////  Delete API
 const handleDeleteButton = async (deletedId) => {
   setLoading(true);
@@ -260,18 +257,6 @@ const handleDeleteButton = async (deletedId) => {
       showError(('Delete Failed'));
         }
     };
-
-
-    // var mybutton = document.getElementById("myBtn");
-    // window.onscroll = function() {scroll()};
-
-    // const  scroll =() => {
-    //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    //     mybutton.style.display = "block";
-    //   } else {
-    //     mybutton.style.display = "block";
-    //   }
-    // }
     const clearState = () => {
       setStates({
         name: '',
@@ -281,11 +266,6 @@ const handleDeleteButton = async (deletedId) => {
       });
      
     };
-    const top = () => {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-      console.log("sssss");
-    }
 
 /////////////////////////////////  API`s  ///////////////////////////////////////
 useEffect(() => {
