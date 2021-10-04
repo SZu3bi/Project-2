@@ -34,11 +34,11 @@ export const DataTable = () => {
   };
 
   const handleChangePage2 = (event, newPage ) => {
-    setPage(newPage);
+    setPage2(newPage);
   };
   const handleChangeRowsPerPage2= (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    setRowsPerPage2(+event.target.value);
+    setPage2(0);
   };
 
 

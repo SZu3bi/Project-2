@@ -324,7 +324,7 @@ return (
 {open && <ContactPageupsert open={open} DTO={EditVal} 
     GetAllData={() => GetAllData()} openvalchangeContact = {openvalchangeContact}/> }
     {/* <button onClick={top} id="myBtn" title="Go to top">Top</button> */}
-    <div className="speedDial">
+    <div className="speedDial no-printme">
       <SpeedDial
    
         ariaLabel="SpeedDial uncontrolled open example"
