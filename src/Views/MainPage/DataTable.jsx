@@ -28,6 +28,8 @@ export const DataTable = () => {
   const handleChangePage = (event, newPage ) => {
     setPage(newPage);
   };
+
+
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
@@ -50,12 +52,9 @@ export const DataTable = () => {
         a.Id.localeCompare(b.Id)
       );
       setResult(sortedResult);
-  
-
       console.log('item ', result.data.length);
     } else setResult(null);
     setLoading(false);
-
   }, []);
 
 
@@ -86,6 +85,9 @@ export const DataTable = () => {
 
      
       <div style={{width: '90%',margin: '1px auto'}}>
+
+
+
          {loading ? <CircularProgress /> : <div>
      
         <TableContainer component={Paper} >

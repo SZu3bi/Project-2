@@ -39,8 +39,11 @@ import SaveIcon from '@mui/icons-material/Save';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import AddIcon from '@mui/icons-material/Add';
-
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { IconButton } from "@material-ui/core";
+import moment from 'moment';
+import Backdrop from '@mui/material/Backdrop';
 
 
 
@@ -320,53 +323,15 @@ const actions = [
 
 return (
   <div className='Agents-wrapper view-wrapper'>
-   
+
 {open && <ContactPageupsert open={open} DTO={EditVal} 
     GetAllData={() => GetAllData()} openvalchangeContact = {openvalchangeContact}/> }
     {/* <button onClick={top} id="myBtn" title="Go to top">Top</button> */}
-    <div className="speedDial no-printme">
-      <SpeedDial
-   
-        ariaLabel="SpeedDial uncontrolled open example"
-
-        icon={<SpeedDialIcon />}
-        onClose={handleCloseD}
-        onOpen={handleOpenD}
-        open={openD}
-        direction="left"
-      >
-        {actions.map((action) => (
-          
-          <SpeedDialAction
-          id={action.id}
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={() => handleClickOpen(action.id)}
-// onClick={()=>console.log("id",action.id)}
-    
-          
-                />
-        ))}
-        
-      </SpeedDial>
-      </div>
+  
     {loading ? <CircularProgress /> : <div>
 
 <div style={{display: 'inline-block'}}>
-  {/* <div style={{display: 'inline-block'}}><Badge  badgeContent={undefined !== result && result !== null && result.length} color="primary" style={{float:'left'}}>
-        <PersonIcon />
-      </Badge></div> */}
-      {/* <div>
-      <Button  
-      aria-controls="customized-menu"
-      aria-haspopup="true"
-      variant="contained"
-      color="primary" 
-      onClick={OpenAdd}>
-        Open Menu
-      </Button>
-      </div> */}
+
      
       <Menu
         id="simple-menu"
@@ -378,7 +343,119 @@ return (
       
       </Menu>
     </div>
-<div className="cards printme">
+    {result && result.map((s ,index ) => ( 
+      
+   <div className="users-card-wrapper" >
+     
+          <div className="cards-wrapper">
+      
+<div className="cards-header">
+              <div className="item-wrapper">
+              <img id="avatar" className="user-cover-image" src={psi} alt="lead"></img>
+
+              </div>
+              <div className="d-flex-column">
+                <div className="item-wrapper px-2">
+                  <span className="item-header">{s.Name}</span>
+                </div>
+                <div className="item-wrapper">
+                  <span className="item-header px-2">
+                   username
+                  </span>
+                  <span className="item-body">N/A</span>
+                </div>
+                  <div className="item-wrapper">
+            
+                  </div>
+               
+              </div>
+            </div>
+            <div className="cards-body">
+              <div className="item-wrapper">
+                <span className="item-header">
+                  <span className="mdi mdi-phone px-2" />
+                  <span>mobile:</span>
+                </span>
+                <span className="item-body">{s.Phone || 'N/A'}</span>
+              </div>
+              <div className="item-wrapper flex-nowrap">
+                <div className="texts-truncate d-flex">
+                  <span className="item-header">
+                    <span className="mdi mdi-email-outline px-2" />
+                    <span>email:</span>
+                  </span>
+                  <span
+                    className="item-body texts-truncate d-inline-block"
+                    // title={email|| 'N/A'}
+                  >
+                    {s.Email || 'N/A'}
+                  </span>
+                </div>
+              </div>
+              <div className="item-wrapper">
+                <span className="item-header">
+                  <span className="mdi mdi-whatsapp px-2" />
+                  <span>whatsapp:</span>
+                </span>
+                <span className="item-body">{s.Phone || 'N/A'}</span>
+              </div>
+              <div className="item-wrapper">
+                <span className="item-header">
+                  <span className="mdi mdi-map-marker px-2" />
+                  <span>nationality:</span>
+                </span>
+                <span className="item-body">Jordan</span>
+              </div>
+              <div className="item-wrapper">
+                <span className="item-header">
+                  <span className="mdi mdi-calendar-blank px-2" />
+                  <span>register:</span>
+                </span>
+                <span className="item-body">
+                {/* {s.CreatedDate} */}
+                {(s.CreatedDate &&
+                    moment(s.CreatedDate).format('DD/MM/YYYY')) ||
+                    'N/A'}
+                
+                </span>
+              </div>
+              <div className="item-wrapper">
+                <span className="item-header">
+                  <span className="mdi mdi-account-check px-2" />
+                  <span>Status:</span>
+                </span>
+                <span className="item-body">Active</span>
+              </div>
+              <div className="item-wrapper mb-3">
+                <span className="item-header">
+                  <span className="mdi mdi-handshake-outline px-2" />
+                  <span>data-source:</span>
+                </span>
+                <span className="item-body">{s.LeadSource}</span>
+              </div>
+              <Rating
+        name="text-feedback"
+        value={s.Rating__c}
+        readOnly
+        precision={0.5}
+        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+      />
+            </div>
+            <div className="item-wrapper actions">
+            <IconButton
+              size="small"
+              color="inherit">
+         <EditIcon onClick={() => { setOpen(true); setEditVal(s) }}></EditIcon>
+            </IconButton>
+            <IconButton
+              size="small"
+              color="inherit">
+         <DeleteForeverIcon onClick={() => handleDeleteButton(s.Id)}></DeleteForeverIcon>
+            </IconButton>
+            </div>
+            </div>
+            </div>))}
+{/* <div className="cards printme">
 
 {result && result.map((s ,index ) => ( 
 <div class="card-container" key={index} >
@@ -432,7 +509,36 @@ return (
       </Accordion>
       </div>
 </div>))}
-</div>
+</div> */}
+<br/>
+  <div className="speedDial no-printme">
+  <Backdrop open={openD} />
+      <SpeedDial
+   
+        ariaLabel="SpeedDial uncontrolled open example"
+
+        icon={<SpeedDialIcon />}
+        onClose={handleCloseD}
+        onOpen={handleOpenD}
+        open={openD}
+        direction="left"
+      >
+        {actions.map((action) => (
+          
+          <SpeedDialAction
+          id={action.id}
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={() => handleClickOpen(action.id)}
+// onClick={()=>console.log("id",action.id)}
+    
+          
+                />
+        ))}
+        
+      </SpeedDial>
+      </div>
     <div>
     <ToastContainer />
     <Dialog
