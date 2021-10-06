@@ -428,7 +428,7 @@ return (
               </div>
               <div className="item-wrapper mb-3">
                 <span className="item-header">
-                  <span className="mdi mdi-handshake-outline px-2" />
+                  <span className="mdi mdi-file-document-edit px-2" />
                   <span>data-source:</span>
                 </span>
                 <span className="item-body">{s.LeadSource}</span>
