@@ -16,6 +16,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Rating } from '@mui/material';
 import StarIcon from '@mui/icons-material/Star';
 import Box from '@mui/material/Box';
+import Checkbox from '@mui/material/Checkbox';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -57,7 +58,8 @@ export const ContactPageupsert = (
       phone: '',
       leadsource: '',
       email: '',
-      rate:0 
+      rate:0,
+      active:false 
 
     });
   const [idedit, setidedit] = useState()
@@ -85,18 +87,16 @@ console.log(loading);
 
   useEffect(() => {
     if (DTO) {
+      setidedit(DTO && DTO.Id)
       setState((item) => ({...item,
         id:(DTO && DTO.Id) || '',
         name: (DTO && DTO.Name) || '',
         phone: (DTO && DTO.Phone) || '',
         email: (DTO && DTO.Email) || '',
         leadsource: (DTO && DTO.LeadSource) || '',
-        rate: (DTO && DTO.Rating__c) || ''
-
-      
+        rate: (DTO && DTO.Rating__c) || '',
+        active: (DTO && DTO.Active__c)
       }))
-
-      setidedit(DTO && DTO.Id)
           
     }
 
@@ -202,6 +202,13 @@ console.log(loading);
               </MenuItem>
             ))}
           </TextField>
+        </div>
+        <div>
+        <Checkbox
+             checked={state.active}
+             onChange={(event) => {
+              setState((item) => ({ ...item, active: event.target.checked })) }}
+             label="Active"  color="success" ></Checkbox>
         </div>
   
 <Rating

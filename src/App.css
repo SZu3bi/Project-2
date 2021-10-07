@@ -511,3 +511,34 @@ margin-bottom: 0.25rem;
   padding: 0 0.25rem;
 }
 
+
+.ribbon {
+  position: absolute;
+  top: 12px;
+  right: 4%;
+  padding: 0 1em;
+  text-align: center;
+  transform: translateY(-100%) rotate(
+90deg) translateX(70.71067811865476%) rotate( 
+-45deg );
+  transform-origin: bottom right;
+  background-color: #00fc22;
+
+  border-radius: 16px;
+ 
+}
+.ribbon2 {
+  position: absolute;
+  top: 12px;
+  right: 4%;
+  padding: 0 1em;
+  text-align: center;
+  transform: translateY(-100%) rotate(
+90deg) translateX(70.71067811865476%) rotate( 
+-45deg );
+  transform-origin: bottom right;
+  background-color: #f00606;
+  color:#eee;
+  border-radius: 16px;
+ 
+}

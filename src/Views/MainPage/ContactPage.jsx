@@ -44,6 +44,7 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { IconButton } from "@material-ui/core";
 import moment from 'moment';
 import Backdrop from '@mui/material/Backdrop';
+import Checkbox from '@mui/material/Checkbox';
 
 
 
@@ -115,7 +116,8 @@ const [states, setStates] = useState({
     phone:'',
     email:'',
     leadSource:'',
-    rate:0
+    rate:0,
+    active:false
   } );
 
 
@@ -348,7 +350,7 @@ return (
    <div className="users-card-wrapper" >
      
           <div className="cards-wrapper">
-      
+          <div className={s.Active__c===true ?'ribbon' :'ribbon2' }  >{s.Active__c===true ?'Active' :'Not Active' }</div>
 <div className="cards-header">
               <div className="item-wrapper">
               <img id="avatar" className="user-cover-image" src={psi} alt="lead"></img>
@@ -557,6 +559,8 @@ return (
         {loading ? <CircularProgress size={50} /> :
   <div className="div1">
     <form className={classes.root} noValidate autoComplete="off">
+   
+
     <div>
 <TextField
           required
@@ -608,6 +612,13 @@ return (
      </MenuItem>
    ))}
  </TextField>
+ </div>
+             <div>
+             <Checkbox
+             value={states.active}
+             onChange={(event) => {
+              setStates((item) => ({ ...item, active: event.target.checked })) }}
+             label="Active"  color="success" ></Checkbox>
  </div>
               </form>
 
