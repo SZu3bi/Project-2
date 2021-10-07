@@ -90,26 +90,29 @@ export const DataTable = () => {
 
          {loading ? <CircularProgress /> : <div>
      
-        <TableContainer component={Paper} >
-        <p className="pancakes-text">Contact</p>
+        <TableContainer component={Paper} style={{borderRadius: '20px'}}>
+        {/* <p className="pancakes-text">Contact</p> */}
           <Table >
  
             <TableHead>
-              <TableRow style={{backgroundColor:'#3f51b5'}}>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Name</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Email</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Phone</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">LeadSource</TableCell>
+            <TableRow style={{backgroundColor:'#006186'}}>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Name</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Email</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Phone</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">LeadSource</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
             {result && result.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((s ,index ) => ( 
                 <TableRow>
         
-                  <TableCell align="center">{s.Name}</TableCell>
-                  <TableCell align="center">{s.Email}</TableCell>
-                  <TableCell align="center">{s.Phone}</TableCell>
-                  <TableCell align="center">{s.LeadSource}</TableCell>
+    
+  
+    
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{s.Name}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{s.Email}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{s.Phone}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{s.LeadSource}</TableCell>
                 </TableRow>
                 
                ))}
@@ -125,29 +128,30 @@ export const DataTable = () => {
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
         </TableContainer>
-    
-        <TableContainer component={Paper} >
+    <br/>
+        <TableContainer component={Paper} style={{borderRadius: '20px'}}>
       
-        <p className="pancakes-text">Case</p>
+        {/* <p className="pancakes-text">Case</p> */}
           <Table >
             <TableHead>
-              <TableRow style={{backgroundColor:'#3f51b5'}}>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Subject</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Status</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">ContactId</TableCell>
-                <TableCell style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Origin</TableCell>
-                <TableCell  style={{ fontSize: 'large',fontFamily: 'revert',fontWeight: 'bold'}} align="center">Priority</TableCell>
+        
+              <TableRow style={{backgroundColor:'#006186'}}>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Subject</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Status</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Contact Name</TableCell>
+                <TableCell style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Origin</TableCell>
+                <TableCell  style={{ fontSize: '16px',fontFamily: 'revert',fontWeight: 'bold',color: '#ffffff'}} align="center">Priority</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
             {res && res.slice(page2 * rowsPerPage2, page2 * rowsPerPage2 + rowsPerPage2).map((r ,index ) => ( 
                 <TableRow>
         
-                  <TableCell align="center">{r.Subject}</TableCell>
-                  <TableCell align="center">{r.Status}</TableCell>
-                  <TableCell align="center">{r.ContactId}</TableCell>
-                  <TableCell align="center">{r.Origin}</TableCell>
-                  <TableCell align="center">{r.Priority}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{r.Subject}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{r.Status}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{r.Contact.Name}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{r.Origin}</TableCell>
+                  <TableCell style={{fontSize: '15px', backgroundColor: '#ffffff' ,height: '27px',fontFamily: 'revert',color: '#121212'}} align="center">{r.Priority}</TableCell>
                 </TableRow>
                ))}
             </TableBody>

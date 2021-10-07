@@ -444,12 +444,16 @@ return (
             <div className="item-wrapper actions">
             <IconButton
               size="small"
-              color="inherit">
+              color="inherit"
+              className="button"
+              >
          <EditIcon onClick={() => { setOpen(true); setEditVal(s) }}></EditIcon>
             </IconButton>
             <IconButton
               size="small"
-              color="inherit">
+              color="inherit"
+              className="button"
+              >
          <DeleteForeverIcon onClick={() => handleDeleteButton(s.Id)}></DeleteForeverIcon>
             </IconButton>
             </div>

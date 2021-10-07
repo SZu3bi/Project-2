@@ -411,7 +411,11 @@ button.primary.ghost {
   padding: 2%;
 }
 
-.cards-wrapper:hover{
+/* .cards-wrapper:hover{
+  cursor: pointer;
+  color: #f50057;
+} */
+.button:hover{
   cursor: pointer;
   color: #f50057;
 }

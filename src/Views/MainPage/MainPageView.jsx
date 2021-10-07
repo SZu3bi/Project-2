@@ -20,33 +20,34 @@ import DialogContent from '@material-ui/core/DialogContent';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { useTheme } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import FaceIcon from '@material-ui/icons/Face';
 import CircularProgress from '@material-ui/core/CircularProgress';
-import LinearProgress from '@material-ui/core/LinearProgress';
 import { deepOrange, deepPurple } from '@material-ui/core/colors';
-import Badge from '@material-ui/core/Badge';
-import PersonIcon from '@material-ui/icons/Person';
-import Chip from '@material-ui/core/Chip';
 import TripOriginIcon from '@material-ui/icons/TripOrigin';
-import EqualizerIcon from '@material-ui/icons/Equalizer';
-import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import PriorityHighIcon from '@material-ui/icons/PriorityHigh';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Masonry,{ResponsiveMasonry} from "react-responsive-masonry"
 import psi from '../../Views/sales.png'
-import { Route, Link, BrowserRouter as Router } from "react-router-dom";
 import Menu from '@material-ui/core/Menu';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
 import Paper from '@material-ui/core/Paper';
-
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { IconButton } from "@material-ui/core";
+import moment from 'moment';
+import Backdrop from '@mui/material/Backdrop';
+import { Rating } from '@mui/material';
+import StarIcon from '@mui/icons-material/Star';
+import SpeedDial from '@mui/material/SpeedDial';
+import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+import SpeedDialAction from '@mui/material/SpeedDialAction';
+import PrintIcon from '@mui/icons-material/Print';
+import ShareIcon from '@mui/icons-material/Share';
 
 const getSteps=()=> {
   return ['Fill Subject', 'Select Contact', 'Select Status','Select Origin','Select Priority'];
@@ -125,11 +126,19 @@ const [state, setState] = useState({
   origin: '',
   priority: '',
   contact:''
-  // contactid:''
+
 } 
 );
+const actions = [
+  { icon: <AddIcon />, name: 'Add' ,id:1 },
 
+  { icon: <PrintIcon />, name: 'Print'  ,id:3 },
+  { icon: <ShareIcon />, name: 'Share'  ,id:4 },
+];
 
+const [openD, setOpenD] = React.useState(false);
+const handleOpenD = () => setOpenD(true);
+const handleCloseD = () => setOpenD(false);
 
 /////////////////////////////////  API`s  ///////////////////////////////////////
 
@@ -171,7 +180,6 @@ console.log("Case" , res);
       status: '',
       origin: '',
       priority: ''
-      // contactid:''
     });
     handleReset();
   };
@@ -221,23 +229,6 @@ setTimeout(() => {
   }else showError(('Delete Failed'));
     };
 
-
-    // var mybutton = document.getElementById("myBtn");
-    // window.onscroll = function() {scroll()};
-
-    // const  scroll =() => {
-    //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    //     mybutton.style.display = "block";
-    //   } else {
-    //     mybutton.style.display = "none";
-    //   }
-    // }
-
-    // const top = () => {
-    //   document.body.scrollTop = 0;
-    //   document.documentElement.scrollTop = 0;
-    //   console.log("sssss");
-    // }
 
 /////////////////////////////////  API`s  ///////////////////////////////////////
 useEffect(() => {
@@ -303,11 +294,11 @@ const openPicture = () => {
       case 0:
         return <div>
  
- <Autocomplete
+ {/* <Autocomplete
           options={rescon}
           getOptionLabel={option=>  option.Name  }
-          // onInputChange={(event, values)=>contactChange(event, values)}
-          // onInputChange={contactChange}
+          onInputChange={(event, values)=>contactChange(event, values)}
+          onInputChange={contactChange}
           onChange={contactChange}
           getOptionSelected={option =>  option.Id}
         Value={selectedOptions}
@@ -322,7 +313,7 @@ const openPicture = () => {
             />
           )}
         />
-        <button onClick={handleSubmit}>Submit!</button>
+        <button onClick={handleSubmit}>Submit!</button> */}
 
               {/* <Autocomplete
       id="highlights-demo"
@@ -374,30 +365,7 @@ const openPicture = () => {
 
          
 
-     {/* <Autocomplete
-      options={rescon}
-      getOptionLabel={option => option.Name}
-      renderInput={params => (
-        <TextField
-          {...params}
-          variant="standard"
-          label="Auto Comp Contact"
-          placeholder="Favorites"
-          margin="normal"
-          value={state.contact}
-          fullWidth
-          // onChange={(event) => {
-          //   console.log(event)
-          //   setState((item) => ({ ...item, contact: event.target.value }))  }}
-          onInputChange={(event, newInputValue) => {
-            console.log(newInputValue)
-             setState((item) => ({ ...item, contact: event.target.value }))
-          }}
-        />
-      )}
- 
-   
-    /> */}
+
          </div>;
       case 2:  return  <div>
         
@@ -487,7 +455,7 @@ return (
       </Badge></div> */}
 
 {/* <button  onClick={() => { setO(true) }}></button> */}
-      <div>
+      {/* <div>
       <Button
       aria-controls="customized-menu"
       aria-haspopup="true"
@@ -496,9 +464,9 @@ return (
       onClick={Open}>
         Open Menu
       </Button>
-      </div>
+      </div> */}
      
-      <Menu
+      {/* <Menu
         id="simple-menu"
         anchorEl={anchorEl}
         keepMounted
@@ -506,9 +474,148 @@ return (
         onClose={Close}>
         <MenuItem onClick={Close}>Add New</MenuItem>
     
-      </Menu>
+      </Menu> */}
     </div>
-<div className="cards">
+    {res && res.map((s ,index ) => ( 
+      
+      <div className="users-card-wrapper" >
+        
+             <div className="cards-wrapper">
+         
+   <div className="cards-header">
+                 <div className="item-wrapper">
+                 <img id="avatar" className="user-cover-image" src={psi} alt="lead"></img>
+   
+                 </div>
+                 <div className="d-flex-column">
+                   <div className="item-wrapper px-2">
+                     <span className="item-header">{s.Subject}</span>
+                   </div>
+                   <div className="item-wrapper">
+                     <span className="item-header px-2">
+                     Status
+                     </span>
+                     <span className="item-body">{s.Status}</span>
+                   </div>
+                     <div className="item-wrapper">
+               
+                     </div>
+                  
+                 </div>
+               </div>
+               <div className="cards-body">
+               <div className="item-wrapper">
+                   <span className="item-header">
+                     <span className="mdi mdi-account px-2" />
+                     <span style={{color:'red'}}>Case For:</span>
+                   </span>
+                   <span className="item-body" style={{color:'red'}}>{s.Contact.Name}</span>
+                 </div>
+                 <div className="item-wrapper">
+                   <span className="item-header">
+                     <span className="mdi mdi-account px-2" />
+                     <span>ContactId:</span>
+                   </span>
+                   <span className="item-body">{s.ContactId}</span>
+                 </div>
+                 <div className="item-wrapper">
+                   <span className="item-header">
+                     <span className="mdi mdi-phone px-2" />
+                     <span>mobile:</span>
+                   </span>
+                   <span className="item-body">{s.Contact.Phone || 'N/A'}</span>
+                 </div>
+                 <div className="item-wrapper flex-nowrap">
+                   <div className="texts-truncate d-flex">
+                     <span className="item-header">
+                       <span className="mdi mdi-email-outline px-2" />
+                       <span>email:</span>
+                     </span>
+                     <span
+                       className="item-body texts-truncate d-inline-block"
+                       // title={email|| 'N/A'}
+                     >
+                       {s.Contact.Email || 'N/A'}
+                     </span>
+                   </div>
+                 </div>
+                
+           
+                 <div className="item-wrapper">
+                   <span className="item-header">
+                     <span className="mdi mdi-calendar-blank px-2" />
+                     <span>register:</span>
+                   </span>
+                   <span className="item-body">
+                   {/* {s.CreatedDate} */}
+                   {(s.CreatedDate &&
+                       moment(s.CreatedDate).format('DD/MM/YYYY')) ||
+                       'N/A'}
+                   
+                   </span>
+                 </div>
+                 <div className="item-wrapper">
+                   <span className="item-header">
+                     <span className="mdi mdi-account-check px-2" />
+                     <span>Priority:</span>
+                   </span>
+                   <span className="item-body">{s.Priority}</span>
+                 </div>
+                 <div className="item-wrapper mb-3">
+                   <span className="item-header">
+                     <span className="mdi mdi-file-document-edit px-2" />
+                     <span>Origin:</span>
+                   </span>
+                   <span className="item-body">{s.Origin}</span>
+                 </div>
+     
+               </div>
+               <div className="item-wrapper actions">
+               <IconButton
+               className="button"
+                 size="small"
+                 color="inherit">
+            <EditIcon onClick={() => { setOpen(true); setEditVal(s) }}></EditIcon>
+               </IconButton>
+               <IconButton
+               className="button"
+                 size="small"
+                 color="inherit">
+            <DeleteForeverIcon onClick={() => handleDeleteButton(s.Id)}></DeleteForeverIcon>
+               </IconButton>
+               </div>
+               </div>
+               </div>))}
+
+               <div className="speedDial no-printme">
+  <Backdrop open={openD} />
+      <SpeedDial
+   
+        ariaLabel="SpeedDial uncontrolled open example"
+
+        icon={<SpeedDialIcon />}
+        onClose={handleCloseD}
+        onOpen={handleOpenD}
+        open={openD}
+        direction="left"
+      >
+        {actions.map((action) => (
+          
+          <SpeedDialAction
+          id={action.id}
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={() => handleClickOpen(action.id)}
+// onClick={()=>console.log("id",action.id)}
+    
+          
+                />
+        ))}
+        
+      </SpeedDial>
+      </div>
+{/* <div className="cards">
 
 {res && res.map((s ,index ) => ( 
 <div class="card-container">
@@ -517,7 +624,7 @@ return (
    
     <h3>{s.Subject}</h3>
     <h6>Loc : Jordan</h6>
-    {/* <h6>Contact Name : {s.Contact.Name}</h6> */}
+
     <h6>Contact Id : {s.ContactId}</h6>
     <div class="buttons">
     <ButtonGroup variant="contained" size='large' color="primary" aria-label="contained primary button group">
@@ -557,7 +664,7 @@ return (
       </Accordion>
       </div>
 </div>))}
-</div>
+</div> */}
     <div>
   
     <ToastContainer />
